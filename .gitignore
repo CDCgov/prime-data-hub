@@ -59,6 +59,7 @@ prime-router/.project
 
 # VS Code
 **/.vscode/**
+workspace.code-workspace
 
 # Eclipse
 **/.settings/**

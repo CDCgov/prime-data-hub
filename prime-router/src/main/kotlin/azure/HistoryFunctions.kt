@@ -79,6 +79,7 @@ class ReportView private constructor(
     val expires: Long?,
     val sendingOrg: String?,
     val receivingOrg: String?,
+    val receivingOrgSvc: String?,
     val facilities: ArrayList<Facility>?,
     val actions: ArrayList<Action>? ){
     
@@ -93,6 +94,7 @@ class ReportView private constructor(
         var expires: Long? = null,
         var sendingOrg: String? = null,
         var receivingOrg: String? = null,
+        var receivingOrgSvc: String? = null,
         var facilities: ArrayList<Facility>? = ArrayList<Facility>(),
         var actions: ArrayList<Action>? = ArrayList<Action>() ){
 
@@ -106,9 +108,10 @@ class ReportView private constructor(
         fun expires( expires: Long ) = apply { this.expires = expires }
         fun sendingOrg( sendingOrg: String ) = apply { this.sendingOrg = sendingOrg }
         fun receivingOrg( receivingOrg: String ) = apply { this.receivingOrg = receivingOrg }
+        fun receivingOrgSvc( receivingOrgSvc: String ) = apply { this.receivingOrgSvc = receivingOrgSvc }
         fun facilities( facilities: ArrayList<Facility> ) = apply { this.facilities = facilities }
         fun actions( actions: ArrayList<Action> ) = apply { this.actions = actions }
-        fun build() = ReportView( sent, via, positive, total, fileType, type, reportId, expires, sendingOrg, receivingOrg, facilities, actions )
+        fun build() = ReportView( sent, via, positive, total, fileType, type, reportId, expires, sendingOrg, receivingOrg, receivingOrgSvc, facilities, actions )
     }
 
 }
@@ -258,6 +261,8 @@ open class BaseHistoryFunction {
                     .expires( it.createdAt.plusDays( DAYS_TO_SHOW ).toEpochSecond() * 1000 )
                     .facilities(facilities)
                     .actions(actions)
+                    .receivingOrg(it.receivingOrg)
+                    .receivingOrgSvc(it.receivingOrgSvc)
                 .build()        
             }
 
