@@ -17,6 +17,11 @@ import gov.cdc.prime.router.Report
 import gov.cdc.prime.router.ResultDetail
 import gov.cdc.prime.router.Sender
 import gov.cdc.prime.router.azure.db.enums.TaskAction
+import gov.cdc.prime.router.tokens.DatabaseJtiCache
+import gov.cdc.prime.router.tokens.FindReportStreamSecretInVault
+import gov.cdc.prime.router.tokens.FindSenderKeyInSettings
+import gov.cdc.prime.router.tokens.TokenAuthentication
+import org.apache.logging.log4j.kotlin.Logging
 import org.postgresql.util.PSQLException
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -35,7 +40,7 @@ private const val ROUTE_TO_SEPARATOR = ","
  * Azure Functions with HTTP Trigger.
  * This is basically the "front end" of the Hub. Reports come in here.
  */
-class ReportFunction {
+class ReportFunction: Logging {
     enum class Options {
         None,
         ValidatePayload,
@@ -70,6 +75,39 @@ class ReportFunction {
         ) request: HttpRequestMessage<String?>,
         context: ExecutionContext,
     ): HttpResponseMessage {
+        return ingestReport(request, context)
+    }
+
+    /**
+     * POST a report to the router, using FHIR auth security
+     * This one is "/api/report".  The other one is "/api/reports"
+     */
+    @FunctionName("report")
+    @StorageAccount("AzureWebJobsStorage")
+    fun report(
+        @HttpTrigger(
+            name = "reqWithFHIRAuth",
+            methods = [HttpMethod.POST],
+            authLevel = AuthorizationLevel.ANONYMOUS
+        ) request: HttpRequestMessage<String?>,
+        context: ExecutionContext,
+    ): HttpResponseMessage {
+        val workflowEngine = WorkflowEngine()
+        val tokenAuthentication = TokenAuthentication(DatabaseJtiCache(workflowEngine.db))
+        val senderName = request.headers[CLIENT_PARAMETER]
+            ?: request.queryParameters.getOrDefault(CLIENT_PARAMETER, "")
+        // todo This code is redundant with validateRequest.  Remove from validateRequest once old endpoint is removed
+        if (senderName.isBlank())
+            return HttpUtilities.bad(request,"Expected a '$CLIENT_PARAMETER' query parameter")
+        val sender = workflowEngine.settings.findSender(senderName)
+            ?: return HttpUtilities.bad(request, "'$CLIENT_PARAMETER:$senderName': unknown sender")
+
+        tokenAuthentication.checkAccessToken(request, "${sender.fullName}.report")
+            ?: return HttpUtilities.unauthorizedResponse(request)
+        return ingestReport(request, context)
+    }
+
+    private fun ingestReport(request: HttpRequestMessage<String?>, context: ExecutionContext): HttpResponseMessage {
         val workflowEngine = WorkflowEngine()
         val actionHistory = ActionHistory(TaskAction.receive, context)
         var report: Report? = null

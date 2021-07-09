@@ -36,7 +36,7 @@ class RequeueFunction : Logging {
             doResend(request, workflowEngine, msgs)
         } catch (t: Throwable) {
             msgs.add(t.cause?.let { "${t.cause!!.localizedMessage}\n" } ?: "" + t.localizedMessage)
-            bad(request, msgs.joinToString("\n") + "\n")
+            HttpUtilities.bad(request, msgs.joinToString("\n") + "\n")
         }
         actionHistory.trackActionResult(response)
         workflowEngine.recordAction(actionHistory)
@@ -51,22 +51,17 @@ class RequeueFunction : Logging {
         val isTest = ! request.queryParameters["test"].isNullOrEmpty()
         if (isTest) msgs.add("Here is what would happen if this were NOT a test:")
         if (request.queryParameters.size < 2 || request.queryParameters.size > 4)
-            return bad(request, "Expecting 2 to 4 parameters\n")
+            return HttpUtilities.bad(request, "Expecting 2 to 4 parameters\n")
         val reportIdStr = request.queryParameters["reportId"]
-            ?: return bad(request, "Missing option reportId\n")
+            ?: return HttpUtilities.bad(request, "Missing option reportId\n")
         val reportId = UUID.fromString(reportIdStr)
         val fullName = request.queryParameters["receiver"]
-            ?: return bad(request, "Missing option receiver\n")
+            ?: return HttpUtilities.bad(request, "Missing option receiver\n")
         val isFailedOnly = ! request.queryParameters["failedOnly"].isNullOrEmpty()
         val receiver = workflowEngine.settings.findReceiver(fullName)
-            ?: return bad(request, "No such receiver fullname $fullName\n")
+            ?: return HttpUtilities.bad(request, "No such receiver fullname $fullName\n")
         // sanity checks throw exceptions inside here:
         workflowEngine.resendEvent(reportId, receiver, isFailedOnly, isTest, msgs)
         return HttpUtilities.httpResponse(request, msgs.joinToString("\n") + "\n", HttpStatus.OK)
-    }
-
-    fun bad(request: HttpRequestMessage<String?>, msg: String): HttpResponseMessage {
-        logger.error(msg)
-        return HttpUtilities.badRequestResponse(request, msg)
     }
 }

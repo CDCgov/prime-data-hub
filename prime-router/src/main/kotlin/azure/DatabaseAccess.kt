@@ -6,6 +6,7 @@ import gov.cdc.prime.router.Organization
 import gov.cdc.prime.router.Report
 import gov.cdc.prime.router.ReportId
 import gov.cdc.prime.router.azure.db.Tables
+import gov.cdc.prime.router.azure.db.Tables.JTI_CACHE
 import gov.cdc.prime.router.azure.db.Tables.COVID_RESULT_METADATA
 import gov.cdc.prime.router.azure.db.Tables.REPORT_LINEAGE
 import gov.cdc.prime.router.azure.db.Tables.SETTING
@@ -15,6 +16,7 @@ import gov.cdc.prime.router.azure.db.enums.TaskAction
 import gov.cdc.prime.router.azure.db.tables.ReportFile.REPORT_FILE
 import gov.cdc.prime.router.azure.db.tables.pojos.CovidResultMetadata
 import gov.cdc.prime.router.azure.db.tables.pojos.ItemLineage
+import gov.cdc.prime.router.azure.db.tables.pojos.JtiCache
 import gov.cdc.prime.router.azure.db.tables.pojos.ReportFile
 import gov.cdc.prime.router.azure.db.tables.pojos.Setting
 import gov.cdc.prime.router.azure.db.tables.pojos.Task
@@ -503,6 +505,25 @@ class DatabaseAccess(private val create: DSLContext) : Logging {
             )
             .fetchOne()
             ?.getValue(DSL.max(SETTING.VERSION)) ?: -1
+    }
+
+    fun insertJti(jti: String, expiresAt: OffsetDateTime? = null, txn: DataAccessTransaction) {
+        val jtiCache = JtiCache()
+        jtiCache.jti = jti
+        jtiCache.expiresAt = expiresAt
+        DSL.using(txn).newRecord(JTI_CACHE, jtiCache).store()
+    }
+
+    fun deleteExpiredJtis(txn: DataAccessTransaction) {
+        DSL.using(txn).deleteFrom(JTI_CACHE).where(JTI_CACHE.EXPIRES_AT.lt(OffsetDateTime.now())).execute()
+    }
+
+    fun fetchJti(jti: String, txn: DataAccessTransaction): JtiCache? {
+        return DSL.using(txn)
+            .selectFrom(JTI_CACHE)
+            .where(JTI_CACHE.JTI.eq(jti))
+            .fetchOne()
+            ?.into(JtiCache::class.java)
     }
 
     fun saveTestData(testData: List<CovidResultMetadata>, txn: DataAccessTransaction) {
