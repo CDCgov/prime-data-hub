@@ -1,5 +1,7 @@
 package gov.cdc.prime.router
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,11 +19,16 @@ class ReportTests {
         val report1 = Report(one, listOf(listOf("1", "2"), listOf("3", "4")), source = TestSource)
         val report2 = Report(one, listOf(listOf("5", "6"), listOf("7", "8")), source = TestSource)
         val mergedReport = Report.merge(listOf(report1, report2))
-        assertEquals(4, mergedReport.itemCount)
-        assertEquals(2, report1.itemCount)
-        assertEquals("8", mergedReport.getString(3, "b"))
-        assertEquals(2, mergedReport.sources.size)
-        assertEquals(report1.id, (mergedReport.sources[0] as ReportSource).id)
+        // assertEquals(4, mergedReport.itemCount)
+        assertThat(4).isEqualTo(mergedReport.itemCount)
+        // assertEquals(2, report1.itemCount)
+        assertThat(2).isEqualTo(report1.itemCount)
+        // assertEquals("8", mergedReport.getString(3, "b"))
+        assertThat("8").isEqualTo(mergedReport.getString(3, "b"))
+        // assertEquals(2, mergedReport.sources.size)
+        assertThat(2).isEqualTo(mergedReport.sources.size)
+        // assertEquals(report1.id, (mergedReport.sources[0] as ReportSource).id)
+        assertThat(report1.id).isEqualTo((mergedReport.sources[0] as ReportSource).id)
     }
 
     @Test
@@ -30,12 +37,17 @@ class ReportTests {
         val metadata = Metadata(schema = one)
         val jurisdictionalFilter = metadata.findJurisdictionalFilter("matches") ?: fail("cannot find filter")
         val report1 = Report(one, listOf(listOf("1", "2"), listOf("3", "4")), source = TestSource)
-        assertEquals(2, report1.itemCount)
+        // assertEquals(2, report1.itemCount)
+        assertThat(2).isEqualTo(report1.itemCount)
         val filteredReport = report1.filter(listOf(Pair(jurisdictionalFilter, listOf("a", "1"))), rcvr, false)
-        assertEquals(one, filteredReport.schema)
-        assertEquals(1, filteredReport.itemCount)
-        assertEquals("2", filteredReport.getString(0, "b"))
-        assertEquals(1, filteredReport.sources.size)
+        // assertEquals(one, filteredReport.schema)
+        assertThat(one).isEqualTo(filteredReport.schema)
+        // assertEquals(1, filteredReport.itemCount)
+        assertThat(1).isEqualTo(filteredReport.itemCount)
+        // assertEquals("2", filteredReport.getString(0, "b"))
+        assertThat("2").isEqualTo(filteredReport.getString(0, "b"))
+        // assertEquals(1, filteredReport.sources.size)
+        assertThat(1).isEqualTo(filteredReport.sources.size)
     }
 
     @Test
@@ -45,38 +57,52 @@ class ReportTests {
         val jurisdictionalFilter = metadata.findJurisdictionalFilter("matches") ?: fail("cannot find filter")
         // each sublist is a row.
         val report1 = Report(one, listOf(listOf("row1_a", "row1_b"), listOf("row2_a", "row2_b")), source = TestSource)
-        assertEquals(2, report1.itemCount)
+        // assertEquals(2, report1.itemCount)
+        assertThat(2).isEqualTo(report1.itemCount)
         val filteredReportA = report1.filter(
             listOf(Pair(jurisdictionalFilter, listOf("a", "row1.*", "row2_a"))), rcvr, false
         )
-        assertEquals(2, filteredReportA.itemCount)
-        assertEquals("row1_b", filteredReportA.getString(0, "b"))
-        assertEquals("row2_b", filteredReportA.getString(1, "b"))
+        // assertEquals(2, filteredReportA.itemCount)
+        assertThat(2).isEqualTo(filteredReportA.itemCount)
+        // assertEquals("row1_b", filteredReportA.getString(0, "b"))
+        assertThat("row1_b").isEqualTo(filteredReportA.getString(0, "b"))
+        // assertEquals("row2_b", filteredReportA.getString(1, "b"))
+        assertThat("row2_b").isEqualTo(filteredReportA.getString(1, "b"))
 
-        val filteredReportB = report1.filter(listOf(Pair(jurisdictionalFilter, listOf("a", "row.*"))), rcvr, false)
-        assertEquals(2, filteredReportA.itemCount)
-        assertEquals("row1_b", filteredReportB.getString(0, "b"))
-        assertEquals("row2_b", filteredReportB.getString(1, "b"))
+        val filteredReportB = report1.filter(
+            listOf(Pair(jurisdictionalFilter, listOf("a", "row.*"))), rcvr, false
+        )
+        // assertEquals(2, filteredReportA.itemCount)
+        assertThat(2).isEqualTo(filteredReportA.itemCount)
+        // assertEquals("row1_b", filteredReportB.getString(0, "b"))
+        assertThat("row1_b").isEqualTo(filteredReportB.getString(0, "b"))
+        // assertEquals("row2_b", filteredReportB.getString(1, "b"))
+        assertThat("row2_b").isEqualTo(filteredReportB.getString(1, "b"))
 
         val filteredReportC = report1.filter(
             listOf(Pair(jurisdictionalFilter, listOf("a", "row1_a", "foo", "bar", "baz"))), rcvr, false
         )
-        assertEquals(1, filteredReportC.itemCount)
-        assertEquals("row1_b", filteredReportC.getString(0, "b"))
+        // assertEquals(1, filteredReportC.itemCount)
+        assertThat(1).isEqualTo(filteredReportC.itemCount)
+        // assertEquals("row1_b", filteredReportC.getString(0, "b"))
+        assertThat("row1_b").isEqualTo(filteredReportC.getString(0, "b"))
 
         val filteredReportD = report1.filter(
             listOf(Pair(jurisdictionalFilter, listOf("a", "argle", "bargle"))), rcvr, false
         )
-        assertEquals(0, filteredReportD.itemCount)
+        // assertEquals(0, filteredReportD.itemCount)
+        assertThat(0).isEqualTo(filteredReportD.itemCount)
     }
 
     @Test
     fun `test isEmpty`() {
         val one = Schema(name = "one", topic = "test", elements = listOf(Element("a"), Element("b")))
         val emptyReport = Report(one, emptyList(), source = TestSource)
-        assertEquals(true, emptyReport.isEmpty())
+        // assertEquals(true, emptyReport.isEmpty())
+        assertThat(true).isEqualTo(emptyReport.isEmpty())
         val report1 = Report(one, listOf(listOf("1", "2")), source = TestSource)
-        assertEquals(false, report1.isEmpty())
+        // assertEquals(false, report1.isEmpty())
+        assertThat(false).isEqualTo(report1.isEmpty())
     }
 
     @Test

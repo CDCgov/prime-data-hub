@@ -21,7 +21,7 @@ object DocumentationFactory {
     }
 
     fun getElementDocumentation(element: Element): String {
-        val csvField = if (element.csvFields?.isNotEmpty() == true) element.csvFields?.get(0) else null
+        val csvField = if (element.csvFields?.isNotEmpty() == true) element.csvFields[0] else null
         val sb = StringBuilder()
         val displayName = csvField?.name ?: element.name
         val hl7Fields = element.hl7OutputFields?.plus(element.hl7Field)

@@ -227,7 +227,7 @@ class DownloadFunction() : SecretManagement, BaseHistoryFunction() {
         var userName = ""
         var orgName = ""
         val cookies = request.headers["cookie"] ?: ""
-        var jwtString = ""
+        var jwtString: String
         cookies.replace(" ", "").split(";").forEach {
             val cookie = it.split("=")
             jwtString = if (cookie[0] == "jwt") cookie[1] else ""
@@ -239,10 +239,14 @@ class DownloadFunction() : SecretManagement, BaseHistoryFunction() {
                     val jwt = jwtVerifier.decode(jwtString)
                     userName = jwt.getClaims().get("sub").toString()
                     val orgs = jwt.getClaims().get("organization")
-                    var org = if (orgs !== null) (orgs as List<String>)[0] else ""
-                    orgName = if (org.length > 3) org.substring(2) else ""
+                    var org = if (orgs !== null) (orgs as List<*>)[0] else ""
+                    orgName = when (org) {
+                        is String -> if (org.length > 3) org.substring(2) else ""
+                        else -> ""
+                    }
+                    // orgName = if (org.length > 3) org.substring(2) else ""
                 } catch (ex: Throwable) {
-                    System.out.println(ex)
+                    println(ex)
                 }
             }
         }

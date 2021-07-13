@@ -34,6 +34,7 @@ class QueueAccess {
     }
 
     fun receiveMessage(queueName: String): Event {
+        // messageText is deprecated
         val message = createQueueClient(queueName).receiveMessage().messageText
         return Event.parseQueueMessage(message)
     }

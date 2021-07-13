@@ -142,7 +142,7 @@ internal class ElementTests {
         one.toNormalized("99999").run {
             assertThat(this).isEqualTo("99999")
         }
-        val result2 = one.toNormalized("99999-9999").run {
+        one.toNormalized("99999-9999").run {
             assertThat(this).isEqualTo("99999-9999")
         }
         // format should not affect normalization

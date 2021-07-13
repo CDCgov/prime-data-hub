@@ -147,23 +147,7 @@ class SendFunctionTests {
         every { workflowEngine.handleReportEvent(any(), context, any()) }.answers {
             val block = thirdArg() as
                 (header: WorkflowEngine.Header, retryToken: RetryToken?, txn: Configuration?) -> ReportEvent
-            val task = Task(
-                reportId,
-                TaskAction.send,
-                null,
-                null,
-                "ignore.CSV",
-                0,
-                "",
-                "",
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            )
+
             val header = makeHeader()
             nextEvent = block(
                 header, RetryToken(2, RetryToken.allItems), null

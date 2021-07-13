@@ -490,9 +490,73 @@ NTE|1|L|This is a final comment|RE"""
     fun `test terser spec generator`() {
         val metadata = Metadata("./metadata")
         val serializer = Hl7Serializer(metadata)
+<<<<<<< Updated upstream
         assertEquals("/MSH-1-1", serializer.getTerserSpec("MSH-1-1"))
         assertEquals("/.PID-1", serializer.getTerserSpec("PID-1"))
         assertEquals("/.", serializer.getTerserSpec(""))
+=======
+        assertThat("/MSH-1-1").isEqualTo(serializer.getTerserSpec("MSH-1-1"))
+        assertThat("/.PID-1").isEqualTo(serializer.getTerserSpec("PID-1"))
+        assertThat("/.").isEqualTo(serializer.getTerserSpec(""))
+    }
+
+    @Test
+    fun `test setTelephoneComponents for patient`() {
+        val metadata = Metadata("./metadata")
+        val mockTerser = mockk<Terser>()
+        val serializer = Hl7Serializer(metadata)
+        every { mockTerser.set(any(), any()) } returns Unit
+        every { mockTerser.get("/PATIENT_RESULT/PATIENT/PID-13(0)-2") } returns ""
+
+        val patientPathSpec = serializer.formPathSpec("PID-13")
+        val patientElement = Element("patient_phone_number", hl7Field = "PID-13", type = Element.Type.TELEPHONE)
+        serializer.setTelephoneComponent(
+            mockTerser,
+            "5555555555:1:",
+            patientPathSpec,
+            patientElement,
+            Hl7Configuration.PhoneNumberFormatting.ONLY_DIGITS_IN_COMPONENT_ONE
+        )
+
+        verify {
+            mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-1", "5555555555")
+            mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-2", "PRN")
+            mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-3", "PH")
+            mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-5", "1")
+            mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-6", "555")
+            mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-7", "5555555")
+        }
+    }
+
+    @Test
+    fun `test setTelephoneComponents for facility`() {
+        val metadata = Metadata("./metadata")
+        val mockTerser = mockk<Terser>()
+        val serializer = Hl7Serializer(metadata)
+        every { mockTerser.set(any(), any()) } returns Unit
+
+        val facilityPathSpec = serializer.formPathSpec("ORC-23")
+        val facilityElement = Element(
+            "ordering_facility_phone_number", hl7Field = "ORC-23", type = Element.Type.TELEPHONE
+        )
+        serializer.setTelephoneComponent(
+            mockTerser,
+            "5555555555:1:3333",
+            facilityPathSpec,
+            facilityElement,
+            Hl7Configuration.PhoneNumberFormatting.STANDARD
+        )
+
+        verify {
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-1", "(555)555-5555X3333")
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-2", "WPN")
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-3", "PH")
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-5", "1")
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-6", "555")
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-7", "5555555")
+            mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-8", "3333")
+        }
+>>>>>>> Stashed changes
     }
 
     @Test
