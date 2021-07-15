@@ -16,6 +16,7 @@ import gov.cdc.prime.router.ReportId
 import gov.cdc.prime.router.azure.db.enums.TaskAction
 import gov.cdc.prime.router.azure.db.tables.pojos.ReportFile
 import gov.cdc.prime.router.secrets.SecretManagement
+import gov.cdc.prime.router.tokens.OktaAuthentication
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
 import org.thymeleaf.templateresolver.StringTemplateResolver
@@ -27,7 +28,8 @@ import java.time.temporal.ChronoUnit
 import java.util.Calendar
 import java.util.UUID
 
-class DownloadFunction() : SecretManagement, BaseHistoryFunction() {
+class DownloadFunction(oktaAuthentication: OktaAuthentication = OktaAuthentication())
+    : SecretManagement, BaseHistoryFunction(oktaAuthentication) {
     val LOGIN_PAGE = "./assets/csv-download-site/login__inline.html"
     val DOWNLOAD_PAGE = "./assets/csv-download-site/index__inline.html"
     val FILENOTFOUND_PAGE = "./assets/csv-download-site/nosuchfile__inline.html"

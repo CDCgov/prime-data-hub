@@ -18,7 +18,7 @@ protocol = "http"
 org_file = args.org_file
 
 base_url = f"{protocol}://{host}:7071/api"
-headers = {"Authorization": "bearer xyz", "Content-Type": "application/json"}
+headers = {"Authorization": "bearer xyz", "Content-Type": "application/json", "LocalNoAuth": "true"}
 
 
 def parse_file(file_name):
