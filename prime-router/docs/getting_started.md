@@ -12,7 +12,6 @@
   * [Clone the Repository](#clone-the-repository)
   * [Compiling](#compiling)
   * [Function Development with Docker Compose](#function-development-with-docker-compose)
-    + [Local SFTP Server](#local-sftp-server)
     + [Running the Router Locally](#running-the-router-locally)
   * [Testing](#testing)
     + [Unit Tests](#unit-tests)
@@ -307,6 +306,7 @@ If you would like to start with a fresh Vault database, you can clear the Vault 
 cd prime_router
 docker-compose down -v
 rm -rf .vault/env/{key,.env.local}
+docker volume rm prime-router_vault # removes vault volume
 touch .vault/env/.env.local
 ```
 
