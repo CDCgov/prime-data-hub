@@ -1,5 +1,7 @@
 package gov.cdc.prime.router.transport
 
+import assertk.assertThat
+import assertk.assertions.* // ktlint-disable no-wildcard-imports
 import com.microsoft.azure.functions.ExecutionContext
 import gov.cdc.prime.router.FileSettings
 import gov.cdc.prime.router.Metadata
@@ -19,10 +21,6 @@ import org.junit.jupiter.api.BeforeEach
 import java.util.UUID
 import java.util.logging.Logger
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class RedoxTransportTests {
     val context = mockkClass(ExecutionContext::class)
@@ -100,7 +98,7 @@ class RedoxTransportTests {
         // The Test
         val retryItems = redox.send(transportType, header, UUID.randomUUID(), null, context, actionHistory)
 
-        assertNull(retryItems)
+        assertThat(retryItems).isNull()
     }
 
     @Test
@@ -116,7 +114,7 @@ class RedoxTransportTests {
         // The Test
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
 
-        assertNull(retryItemsOut)
+        assertThat(retryItemsOut).isNull()
     }
 
     @Test
@@ -132,13 +130,16 @@ class RedoxTransportTests {
         // The Test
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
 
-        assertNotNull(retryItemsOut)
-        assertEquals(4, retryItemsOut.size)
-        assertEquals("0", retryItemsOut[0])
-        assertEquals("1", retryItemsOut[1])
-        assertEquals("2", retryItemsOut[2])
-        assertEquals("3", retryItemsOut[3])
+        assertThat(retryItemsOut).isNotNull()
+        if (retryItemsOut != null) {
+            assertThat(4).isEqualTo(retryItemsOut.size)
+            assertThat("0").isEqualTo(retryItemsOut[0])
+            assertThat("1").isEqualTo(retryItemsOut[1])
+            assertThat("2").isEqualTo(retryItemsOut[2])
+            assertThat("3").isEqualTo(retryItemsOut[3])
+        }
     }
+
     @Test
     fun `test fetchSecret failure`() {
 
@@ -153,18 +154,22 @@ class RedoxTransportTests {
         // fetchSecret fails, not on a retry situation.
 
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), null, context, actionHistory)
-        assertNotNull(retryItemsOut)
-        assertEquals(1, retryItemsOut.size)
-        assertTrue(RetryToken.isAllItems(retryItemsOut))
+        assertThat(retryItemsOut).isNotNull()
+        if (retryItemsOut != null) {
+            assertThat(1).isEqualTo(retryItemsOut.size)
+        }
+        assertThat(RetryToken.isAllItems(retryItemsOut)).isTrue()
 
         // Now what if fetchSecret fails in a retry situation
 
         val retryItemsIn = listOf("0", "3")
         val retryItemsOut2 = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
-        assertNotNull(retryItemsOut2)
-        assertEquals(2, retryItemsOut2.size)
-        assertEquals("0", retryItemsOut2[0])
-        assertEquals("3", retryItemsOut2[1])
+        assertThat(retryItemsOut2).isNotNull()
+        if (retryItemsOut2 != null) {
+            assertThat(2).isEqualTo(retryItemsOut2.size)
+            assertThat("0").isEqualTo(retryItemsOut2[0])
+            assertThat("3").isEqualTo(retryItemsOut2[1])
+        }
     }
 
     @Test
@@ -179,17 +184,21 @@ class RedoxTransportTests {
 
         // fetchToken fails, not on a retry situation.
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), null, context, actionHistory)
-        assertNotNull(retryItemsOut)
-        assertEquals(1, retryItemsOut.size)
-        assertTrue(RetryToken.isAllItems(retryItemsOut))
+        assertThat(retryItemsOut).isNotNull()
+        if (retryItemsOut != null) {
+            assertThat(1).isEqualTo(retryItemsOut.size)
+        }
+        assertThat(RetryToken.isAllItems(retryItemsOut)).isTrue()
 
         // Now what if fetchToken fails in a retry situation
         val retryItemsIn = listOf("1", "2")
         val retryItemsOut2 = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
-        assertNotNull(retryItemsOut2)
-        assertEquals(2, retryItemsOut2.size)
-        assertEquals("1", retryItemsOut2[0])
-        assertEquals("2", retryItemsOut2[1])
+        assertThat(retryItemsOut2).isNotNull()
+        if (retryItemsOut2 != null) {
+            assertThat(2).isEqualTo(retryItemsOut2.size)
+            assertThat("1").isEqualTo(retryItemsOut2[0])
+            assertThat("2").isEqualTo(retryItemsOut2[1])
+        }
     }
 
     @Test
@@ -208,9 +217,12 @@ class RedoxTransportTests {
         // This is a retry after a retry.
         val retryItemsIn = listOf("1", "2", "3")
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
-        assertNotNull(retryItemsOut)
-        assertEquals(1, retryItemsOut.size)
-        assertEquals("1", retryItemsOut[0])
+        assertThat(retryItemsOut).isNotNull()
+        if (retryItemsOut != null) {
+            println("inside test")
+            assertThat(1).isEqualTo(retryItemsOut.size)
+            assertThat("1").isEqualTo(retryItemsOut[0])
+        }
     }
 
     @Test
@@ -229,12 +241,14 @@ class RedoxTransportTests {
         // This is a retry after a retry.
         val retryItemsIn = listOf("0", "1", "2", "3")
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
-        assertNotNull(retryItemsOut)
-        assertEquals(4, retryItemsOut.size)
-        assertEquals("0", retryItemsOut[0])
-        assertEquals("1", retryItemsOut[1])
-        assertEquals("2", retryItemsOut[2])
-        assertEquals("3", retryItemsOut[3])
+        assertThat(retryItemsOut).isNotNull()
+        if (retryItemsOut != null) {
+            assertThat(4).isEqualTo(retryItemsOut.size)
+            assertThat("0").isEqualTo(retryItemsOut[0])
+            assertThat("1").isEqualTo(retryItemsOut[1])
+            assertThat("2").isEqualTo(retryItemsOut[2])
+            assertThat("3").isEqualTo(retryItemsOut[3])
+        }
     }
     @Test
     fun `test complex situation`() {
@@ -254,9 +268,11 @@ class RedoxTransportTests {
         // This is a retry after a retry, with a mix of responses.  Item 2 is not re-tried.
         val retryItemsIn = listOf("0", "1", "3")
         val retryItemsOut = redox.send(transportType, header, UUID.randomUUID(), retryItemsIn, context, actionHistory)
-        assertNotNull(retryItemsOut)
-        assertEquals(2, retryItemsOut.size)
-        assertEquals("0", retryItemsOut[0]) // exception
-        assertEquals("3", retryItemsOut[1]) // returned failure code
+        assertThat(retryItemsOut).isNotNull()
+        if (retryItemsOut != null) {
+            assertThat(2).isEqualTo(retryItemsOut.size)
+            assertThat("0").isEqualTo(retryItemsOut[0]) // exception
+            assertThat("3").isEqualTo(retryItemsOut[1]) // returned failure code
+        }
     }
 }

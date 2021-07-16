@@ -1639,8 +1639,11 @@ class OtcProctored : CoolTest() {
             Pair("QuickVue At-Home COVID-19 Test_Quidel Corporation", "OTC_PROCTORED_NYY"),
             Pair("00810055970001", "OTC_PROCTORED_NUNKUNK"),
         )
-        for(pair in otcPairs) {
-            ugly("Starting Otc Test: submitting a file containing a device_id: ${pair.first} should match receiver ${pair.second}.")
+        for (pair in otcPairs) {
+            ugly(
+                "Starting Otc Test: submitting a file containing a device_id: " +
+                    "${pair.first} should match receiver ${pair.second}."
+            )
             val reFile = FileUtilities.replaceText(
                 "./src/test/csv_test_files/input/otc-template.csv",
                 "replaceMe",
@@ -1653,7 +1656,7 @@ class OtcProctored : CoolTest() {
             val (responseCode, json) = HttpUtilities.postReportFile(environment, reFile, watersSender, options.key)
 
             echo("Response to POST: $responseCode")
-            if(examineResponse(json)){
+            if (examineResponse(json)) {
                 good("Test PASSED: ${pair.first}")
             } else {
                 bad("Test FAILED: ${pair.first}")
@@ -1661,10 +1664,10 @@ class OtcProctored : CoolTest() {
             }
         }
 
-        if( failures.size == 0 ) {
+        if (failures.size == 0) {
             return true
         } else {
-            return bad( "Tests FAILED: "+ failures)
+            return bad("Tests FAILED: " + failures)
         }
     }
 }

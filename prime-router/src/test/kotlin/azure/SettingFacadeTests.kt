@@ -1,5 +1,8 @@
 package gov.cdc.prime.router.azure
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import gov.cdc.prime.router.Metadata
 import gov.cdc.prime.router.Organization
 import gov.cdc.prime.router.Report
@@ -18,8 +21,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.time.OffsetDateTime
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SettingFacadeTests {
@@ -144,68 +145,72 @@ class SettingFacadeTests {
     fun `get orgs test`() {
         setupOrgDatabaseAccess()
         val list = SettingsFacade(testMetadata(), accessSpy).organizations
-        assertEquals("test", list.first().name)
-        assertEquals(Organization.Jurisdiction.STATE, list.first().jurisdiction)
+        assertThat("test").isEqualTo(list.first().name)
+        assertThat(Organization.Jurisdiction.STATE).isEqualTo(list.first().jurisdiction)
     }
 
     @Test
     fun `get org test`() {
         setupOrgDatabaseAccess()
         val org = SettingsFacade(testMetadata(), accessSpy).findOrganization("test")
-        assertEquals("test", org?.name)
-        assertEquals(Organization.Jurisdiction.STATE, org?.jurisdiction)
+        assertThat("test").isEqualTo(org?.name)
+        assertThat(Organization.Jurisdiction.STATE).isEqualTo(org?.jurisdiction)
     }
 
     @Test
     fun `get org test failure`() {
         setupOrgDatabaseAccess()
         val org = SettingsFacade(testMetadata(), accessSpy).findOrganization("foo")
-        assertNull(org)
+        assertThat(org).isNull()
     }
 
     @Test
     fun `get senders test`() {
         setupSenderDatabaseAccess()
         val list = SettingsFacade(testMetadata(), accessSpy).senders
-        assertEquals("default", list.first().name)
-        assertEquals(Sender.Format.CSV, list.first().format)
+        assertThat("default").isEqualTo(list.first().name)
+        assertThat(Sender.Format.CSV).isEqualTo(list.first().format)
     }
 
     @Test
     fun `get sender test`() {
         setupSenderDatabaseAccess()
         val sender = SettingsFacade(testMetadata(), accessSpy).findSender("test.default")
-        assertEquals("default", sender?.name)
-        assertEquals(Sender.Format.CSV, sender?.format)
+        assertThat("default").isEqualTo(sender?.name)
+        assertThat(Sender.Format.CSV).isEqualTo(sender?.format)
     }
 
     @Test
     fun `get sender test failure`() {
         setupSenderDatabaseAccess()
         val sender = SettingsFacade(testMetadata(), accessSpy).findSender("test.foo")
-        assertNull(sender)
+        assertThat(sender).isNull()
     }
 
     @Test
     fun `get sender test failure2`() {
         setupSenderDatabaseAccess()
         val sender = SettingsFacade(testMetadata(), accessSpy).findSender("foo.foo")
-        assertNull(sender)
+        assertThat(sender).isNull()
     }
 
     @Test
     fun `get receivers test`() {
         setupReceiverDatabaseAccess()
         val list = SettingsFacade(testMetadata(), accessSpy).receivers
-        assertEquals("elr-test", list.first().name)
-        assertEquals(Report.Format.CSV, list.first().format)
+        // assertEquals("elr-test", list.first().name)
+        assertThat("elr-test").isEqualTo(list.first().name)
+        // assertEquals(Report.Format.CSV, list.first().format)
+        assertThat(Report.Format.CSV).isEqualTo(list.first().format)
     }
 
     @Test
     fun `get receiver test`() {
         setupReceiverDatabaseAccess()
         val receiver = SettingsFacade(testMetadata(), accessSpy).findReceiver("test.elr-test")
-        assertEquals("elr-test", receiver?.name)
-        assertEquals(Report.Format.CSV, receiver?.format)
+        // assertEquals("elr-test", receiver?.name)
+        assertThat("elr-test").isEqualTo(receiver?.name)
+        // assertEquals(Report.Format.CSV, receiver?.format)
+        assertThat(Report.Format.CSV).isEqualTo(receiver?.format)
     }
 }

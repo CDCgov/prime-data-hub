@@ -1,5 +1,7 @@
 package gov.cdc.prime.router.credentials
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.azure.core.credential.TokenCredential
 import com.azure.security.keyvault.secrets.SecretClient
 import com.azure.security.keyvault.secrets.SecretClientBuilder
@@ -13,7 +15,6 @@ import io.mockk.verify
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.fail
 
 internal class AzureCredentialServiceTests {
@@ -48,7 +49,7 @@ internal class AzureCredentialServiceTests {
         verify { secretClientBuilder.vaultUrl("https://$KEY_VAULT_NAME.vault.azure.net") }
         verify { secretClientBuilder.credential(mockAzureCredential) }
 
-        assertEquals(secretClient, retVal, "Expects mock secret client to be returned")
+        assertThat(secretClient).isEqualTo(retVal)
     }
 
     @Test
@@ -57,7 +58,7 @@ internal class AzureCredentialServiceTests {
         val credential = credentialService.fetchCredential(
             CONNECTION_ID, CALLER_ID, CredentialRequestReason.AUTOMATED_TEST
         )
-        assertEquals(VALID_CREDENTIAL, credential, "Expected credential not returned")
+        assertThat(VALID_CREDENTIAL).isEqualTo(credential)
     }
 
     @Test
@@ -74,7 +75,7 @@ internal class AzureCredentialServiceTests {
             credentialService.saveCredential(CONNECTION_ID, VALID_CREDENTIAL, CALLER_ID)
             fail("Expected Exception when no secret is returned")
         } catch (e: Exception) {
-            assertEquals("Failed to save credentials for: $CONNECTION_ID", e.message)
+            assertThat("Failed to save credentials for: $CONNECTION_ID").isEqualTo(e.message)
         }
     }
 

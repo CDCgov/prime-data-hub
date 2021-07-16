@@ -1,5 +1,10 @@
 package gov.cdc.prime.router.serializers
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isFailure
+import assertk.assertions.isNull
+import assertk.assertions.isTrue
 import gov.cdc.prime.router.Element
 import gov.cdc.prime.router.Metadata
 import gov.cdc.prime.router.Report
@@ -9,10 +14,6 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.nio.charset.StandardCharsets
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class CsvSerializerTests {
     @Test
@@ -32,10 +33,10 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
-        assertTrue(result.errors.isEmpty())
-        assertTrue(result.warnings.isEmpty())
-        assertEquals(1, result.report?.itemCount)
-        assertEquals("2", result.report?.getString(0, 1))
+        assertThat(result.errors.isEmpty()).isTrue()
+        assertThat(result.warnings.isEmpty()).isTrue()
+        assertThat(1).isEqualTo(result.report?.itemCount)
+        assertThat("2").isEqualTo(result.report?.getString(0, 1))
     }
 
     @Test
@@ -56,9 +57,9 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
-        assertEquals(0, result.warnings.size)
-        assertEquals(1, result.report?.itemCount)
-        assertEquals("elementDefault", result.report?.getString(0, "c"))
+        assertThat(0).isEqualTo(result.warnings.size)
+        assertThat(1).isEqualTo(result.report?.itemCount)
+        assertThat("elementDefault").isEqualTo(result.report?.getString(0, "c"))
     }
 
     @Test
@@ -84,8 +85,8 @@ class CsvSerializerTests {
             listOf(TestSource),
             defaultValues = mapOf("c" to "dynamicDefault")
         ).report
-        assertEquals(1, report?.itemCount)
-        assertEquals("dynamicDefault", report?.getString(0, "c"))
+        assertThat(1).isEqualTo(report?.itemCount)
+        assertThat("dynamicDefault").isEqualTo(report?.getString(0, "c"))
     }
 
     @Test
@@ -105,8 +106,10 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val report = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource).report
-        assertEquals(1, report?.itemCount)
-        assertEquals("1", report?.getString(0, 0))
+        // assertEquals(1, report?.itemCount)
+        assertThat(1).isEqualTo(report?.itemCount)
+        // assertEquals("1", report?.getString(0, 0))
+        assertThat("1").isEqualTo(report?.getString(0, 0))
     }
 
     @Test
@@ -126,8 +129,8 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val report = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource).report
-        assertEquals(1, report?.itemCount)
-        assertEquals("1", report?.getString(0, 0))
+        assertThat(1).isEqualTo(report?.itemCount)
+        assertThat("1").isEqualTo(report?.getString(0, 0))
     }
 
     @Test
@@ -148,9 +151,9 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
-        assertEquals(0, result.warnings.size)
-        assertEquals(1, result.report?.itemCount)
-        assertEquals("3", result.report?.getString(0, 2))
+        assertThat(0).isEqualTo(result.warnings.size)
+        assertThat(1).isEqualTo(result.report?.itemCount)
+        assertThat("3").isEqualTo(result.report?.getString(0, 2))
     }
 
     @Test
@@ -171,8 +174,8 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val report = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource).report
-        assertEquals(1, report?.itemCount)
-        assertEquals("3", report?.getString(0, 2))
+        assertThat(1).isEqualTo(report?.itemCount)
+        assertThat("3").isEqualTo(report?.getString(0, 2))
     }
 
     @Test
@@ -198,7 +201,7 @@ class CsvSerializerTests {
         val output = ByteArrayOutputStream()
         val csvConverter = CsvSerializer(Metadata(schema = one))
         csvConverter.write(report1, output)
-        assertEquals(expectedCsv, output.toString(StandardCharsets.UTF_8))
+        assertThat(expectedCsv).isEqualTo(output.toString(StandardCharsets.UTF_8))
     }
 
     @Test
@@ -221,7 +224,7 @@ class CsvSerializerTests {
         val csvConverter = CsvSerializer(Metadata(schema = one))
         csvConverter.write(report1, output)
         val csv = output.toString(StandardCharsets.UTF_8)
-        assertEquals(expectedCsv, csv)
+        assertThat(expectedCsv).isEqualTo(csv)
     }
 
     @Test
@@ -243,9 +246,9 @@ class CsvSerializerTests {
         // Run it
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
         // Expect the converter to catch the error. Our serializer will error on malformed CSVs.
-        assertEquals(1, result.errors.size)
-        assertEquals(0, result.warnings.size)
-        assertNull(result.report)
+        assertThat(1).isEqualTo(result.errors.size)
+        assertThat(0).isEqualTo(result.warnings.size)
+        assertThat(result.report).isNull()
     }
 
     @Test
@@ -268,9 +271,9 @@ class CsvSerializerTests {
         // Run it
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
         // Expect the converter to catch the error. Our serializer will error on malformed CSVs.
-        assertEquals(1, result.errors.size)
-        assertEquals(0, result.warnings.size)
-        assertNull(result.report)
+        assertThat(1).isEqualTo(result.errors.size)
+        assertThat(0).isEqualTo(result.warnings.size)
+        assertThat(result.report).isNull()
     }
 
     @Test
@@ -289,7 +292,7 @@ class CsvSerializerTests {
         """.trimIndent()
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
-        assertEquals(2, result.warnings.size) // one for not present and one for ignored
+        assertThat(2).isEqualTo(result.warnings.size) // one for not present and one for ignored
     }
 
     @Test
@@ -306,9 +309,9 @@ class CsvSerializerTests {
         """.trimIndent()
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
-        assertTrue(result.warnings.isEmpty())
-        assertTrue(result.errors.isEmpty())
-        assertEquals(0, result.report?.itemCount)
+        assertThat(result.warnings.isEmpty()).isTrue()
+        assertThat(result.errors.isEmpty()).isTrue()
+        assertThat(0).isEqualTo(result.report?.itemCount)
     }
 
     @Test
@@ -349,13 +352,13 @@ class CsvSerializerTests {
             2
         """.trimIndent()
         val result1 = csvConverter.readExternal("one", ByteArrayInputStream(csv1.toByteArray()), TestSource)
-        assertTrue(result1.errors.isEmpty())
-        assertEquals(1, result1.warnings.size) // Missing d header
-        assertEquals(1, result1.report?.itemCount)
-        assertEquals("x", result1.report?.getString(0, "a"))
-        assertEquals("2", result1.report?.getString(0, "b"))
-        assertEquals("y", result1.report?.getString(0, "c"))
-        assertEquals("", result1.report?.getString(0, "d"))
+        assertThat(result1.errors.isEmpty()).isTrue()
+        assertThat(1).isEqualTo(result1.warnings.size) // Missing d header)
+        assertThat(1).isEqualTo(result1.report?.itemCount)
+        assertThat("x").isEqualTo(result1.report?.getString(0, "a"))
+        assertThat("2").isEqualTo(result1.report?.getString(0, "b"))
+        assertThat("y").isEqualTo(result1.report?.getString(0, "c"))
+        assertThat("").isEqualTo(result1.report?.getString(0, "d"))
 
         // Should fail
         val csv2 = """
@@ -363,9 +366,9 @@ class CsvSerializerTests {
             1
         """.trimIndent()
         val result2 = csvConverter.readExternal("one", ByteArrayInputStream(csv2.toByteArray()), TestSource)
-        assertEquals(1, result2.warnings.size) // Missing d header
-        assertEquals(1, result2.errors.size) // Missing b header
-        assertNull(result2.report)
+        assertThat(1).isEqualTo(result2.warnings.size) // Missing d header
+        assertThat(1).isEqualTo(result2.errors.size) // missing b header
+        assertThat(result2.report).isNull()
 
         // Happy path
         val csv3 = """
@@ -373,11 +376,11 @@ class CsvSerializerTests {
             1,2,3,4
         """.trimIndent()
         val result3 = csvConverter.readExternal("one", ByteArrayInputStream(csv3.toByteArray()), TestSource)
-        assertEquals(0, result3.warnings.size)
-        assertEquals("1", result3.report?.getString(0, "a"))
-        assertEquals("2", result3.report?.getString(0, "b"))
-        assertEquals("3", result3.report?.getString(0, "c"))
-        assertEquals("4", result3.report?.getString(0, "d"))
+        assertThat(0).isEqualTo(result3.warnings.size)
+        assertThat("1").isEqualTo(result3.report?.getString(0, "a"))
+        assertThat("2").isEqualTo(result3.report?.getString(0, "b"))
+        assertThat("3").isEqualTo(result3.report?.getString(0, "c"))
+        assertThat("4").isEqualTo(result3.report?.getString(0, "d"))
     }
 
     @Test
@@ -401,11 +404,11 @@ class CsvSerializerTests {
         """.trimIndent()
         val result4 = csvConverter.readExternal("one", ByteArrayInputStream(csv4.toByteArray()), TestSource)
 
-        assertEquals(0, result4.warnings.size)
-        assertEquals(1, result4.errors.size)
-        assertEquals(1, result4.report?.itemCount)
-        assertEquals("B", result4.report?.getString(0, "b"))
-        assertEquals("D", result4.report?.getString(0, "d"))
+        assertThat(0).isEqualTo(result4.warnings.size)
+        assertThat(1).isEqualTo(result4.errors.size)
+        assertThat(1).isEqualTo(result4.report?.itemCount)
+        assertThat("B").isEqualTo(result4.report?.getString(0, "b"))
+        assertThat("D").isEqualTo(result4.report?.getString(0, "d"))
     }
 
     @Test
@@ -423,7 +426,7 @@ class CsvSerializerTests {
                 ),
             )
         )
-        assertFails { Metadata(one) }
+        assertThat { Metadata(one) }.isFailure()
     }
 
     @Test
@@ -460,13 +463,13 @@ class CsvSerializerTests {
             1,,3
         """.trimIndent()
         val result4 = csvConverter.readExternal("one", ByteArrayInputStream(csv4.toByteArray()), TestSource)
-        assertEquals(0, result4.errors.size)
-        assertEquals("", result4.report?.getString(0, "a"))
-        assertEquals("1", result4.report?.getString(1, "a"))
-        assertEquals("2", result4.report?.getString(0, "b"))
-        assertEquals("", result4.report?.getString(1, "b"))
-        assertEquals("y", result4.report?.getString(0, "c"))
-        assertEquals("3", result4.report?.getString(1, "c"))
+        assertThat(0).isEqualTo(result4.errors.size)
+        assertThat("").isEqualTo(result4.report?.getString(0, "a"))
+        assertThat("1").isEqualTo(result4.report?.getString(1, "a"))
+        assertThat("2").isEqualTo(result4.report?.getString(0, "b"))
+        assertThat("").isEqualTo(result4.report?.getString(1, "b"))
+        assertThat("y").isEqualTo(result4.report?.getString(0, "c"))
+        assertThat("3").isEqualTo(result4.report?.getString(1, "c"))
     }
 
     @Test
@@ -499,10 +502,10 @@ class CsvSerializerTests {
 
         val csvConverter = CsvSerializer(Metadata(schema = one))
         val result = csvConverter.readExternal("one", ByteArrayInputStream(csv.toByteArray()), TestSource)
-        assertTrue(result.errors.isEmpty())
-        assertTrue(result.warnings.isEmpty())
-        assertEquals(1, result.report?.itemCount)
-        assertEquals(koreanString, result.report?.getString(0, "a"))
-        assertEquals(greekString, result.report?.getString(0, "b"))
+        assertThat(result.errors.isEmpty()).isTrue()
+        assertThat(result.warnings.isEmpty()).isTrue()
+        assertThat(1).isEqualTo(result.report?.itemCount)
+        assertThat(koreanString).isEqualTo(result.report?.getString(0, "a"))
+        assertThat(greekString).isEqualTo(result.report?.getString(0, "b"))
     }
 }

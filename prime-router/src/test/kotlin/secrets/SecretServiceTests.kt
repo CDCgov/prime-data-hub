@@ -1,10 +1,11 @@
 package gov.cdc.prime.router.secrets
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import io.mockk.every
 import io.mockk.spyk
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
-import kotlin.test.assertEquals
 import kotlin.test.fail
 
 internal class SecretServiceTests : SecretManagement {
@@ -17,7 +18,7 @@ internal class SecretServiceTests : SecretManagement {
     // @Test
     fun `test fetch from envVar`() {
         every { mockSecretService.fetchEnvironmentVariable("SECRET_SERVICE_TEST") } returns "value_expected"
-        assertEquals("value_expected", secretService.fetchSecret("SECRET_SERVICE_TEST"))
+        assertThat("value_expected").isEqualTo(secretService.fetchSecret("SECRET_SERVICE_TEST"))
     }
 
     @Test
@@ -34,7 +35,7 @@ internal class SecretServiceTests : SecretManagement {
                 secretService.fetchSecret(it)
                 fail("IllegalArgumentException not thrown for $it")
             } catch (e: IllegalArgumentException) {
-                assertEquals("secretName must match: ^[a-zA-Z0-9-_]*\$", e.message)
+                assertThat("secretName must match: ^[a-zA-Z0-9-_]*\$").isEqualTo(e.message)
             }
         }
     }

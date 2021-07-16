@@ -1,5 +1,11 @@
 package gov.cdc.prime.router.azure
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isFailure
+import assertk.assertions.isNotNull
+import assertk.assertions.isNull
+import assertk.assertions.isTrue
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
@@ -30,26 +36,24 @@ import java.time.OffsetDateTime
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ActionHistoryTests {
     @Test
     fun `test constructor`() {
         val actionHistory = ActionHistory(TaskAction.batch)
-        assertEquals(actionHistory.action.actionName, TaskAction.batch)
+        assertThat(actionHistory.action.actionName).isEqualTo(TaskAction.batch)
     }
 
     @Test
     fun `test trackActionResult`() {
         val actionHistory1 = ActionHistory(TaskAction.batch)
         actionHistory1.trackActionResult("foobar")
-        assertEquals(actionHistory1.action.actionResult, "foobar")
+        assertThat(actionHistory1.action.actionResult).isEqualTo("foobar")
         val giantStr = "x".repeat(3000)
         actionHistory1.trackActionResult(giantStr)
-        assertTrue { actionHistory1.action.actionResult.length == 2048 }
+        assertThat(actionHistory1.action.actionResult.length == 2048).isTrue()
     }
 
     @Test
@@ -68,25 +72,25 @@ class ActionHistoryTests {
         val actionHistory1 = ActionHistory(TaskAction.receive)
         val blobInfo1 = BlobAccess.BlobInfo(Report.Format.CSV, "myUrl", byteArrayOf(0x11, 0x22))
         actionHistory1.trackExternalInputReport(incomingReport, blobInfo1)
-        assertNotNull(actionHistory1.reportsReceived[report1.id])
+        assertThat(actionHistory1.reportsReceived[report1.id]).isNotNull()
         val reportFile = actionHistory1.reportsReceived[report1.id] !!
-        assertEquals(reportFile.schemaName, "one")
-        assertEquals(reportFile.schemaTopic, "test")
-        assertEquals(reportFile.sendingOrg, "myOrg")
-        assertEquals(reportFile.sendingOrgClient, "myClient")
-        assertEquals(reportFile.bodyUrl, "myUrl")
-        assertEquals(reportFile.blobDigest[1], 34)
-        assertNull(reportFile.receivingOrg)
+        assertThat(reportFile.schemaName).isEqualTo("one")
+        assertThat(reportFile.schemaTopic).isEqualTo("test")
+        assertThat(reportFile.sendingOrg).isEqualTo("myOrg")
+        assertThat(reportFile.sendingOrgClient).isEqualTo("myClient")
+        assertThat(reportFile.bodyUrl).isEqualTo("myUrl")
+        assertThat(reportFile.blobDigest[1]).isEqualTo(34)
+        assertThat(reportFile.receivingOrg).isNull()
 
         // not allowed to track the same report twice.
-        assertFails { actionHistory1.trackExternalInputReport(incomingReport, blobInfo1) }
+        assertThat { actionHistory1.trackExternalInputReport(incomingReport, blobInfo1) }.isFailure()
 
         // must pass a valid report.   Here, its set to null.
         val incomingReport2 = ReportFunction.ValidatedRequest(
             HttpStatus.OK,
             options = ReportFunction.Options.CheckConnections
         )
-        assertFails { actionHistory1.trackExternalInputReport(incomingReport2, blobInfo1) }
+        assertThat { actionHistory1.trackExternalInputReport(incomingReport2, blobInfo1) }.isFailure()
     }
 
     @Test
@@ -112,19 +116,19 @@ class ActionHistoryTests {
         val blobInfo1 = BlobAccess.BlobInfo(Report.Format.CSV, "myUrl", byteArrayOf(0x11, 0x22))
         actionHistory1.trackCreatedReport(event1, report1, orgReceiver, blobInfo1)
 
-        assertNotNull(actionHistory1.reportsOut[report1.id])
+        assertThat(actionHistory1.reportsOut[report1.id]).isNotNull()
         val reportFile = actionHistory1.reportsOut[report1.id] !!
-        assertEquals(reportFile.schemaName, "schema1")
-        assertEquals(reportFile.schemaTopic, "topic1")
-        assertEquals(reportFile.receivingOrg, "myOrg")
-        assertEquals(reportFile.receivingOrgSvc, "myService")
-        assertEquals(reportFile.bodyUrl, "myUrl")
-        assertEquals(reportFile.blobDigest[1], 34)
-        assertNull(reportFile.sendingOrg)
-        assertEquals(reportFile.itemCount, 0)
+        assertThat(reportFile.schemaName).isEqualTo("schema1")
+        assertThat(reportFile.schemaTopic).isEqualTo("topic1")
+        assertThat(reportFile.receivingOrg).isEqualTo("myOrg")
+        assertThat(reportFile.receivingOrgSvc).isEqualTo("myService")
+        assertThat(reportFile.bodyUrl).isEqualTo("myUrl")
+        assertThat(reportFile.blobDigest[1]).isEqualTo(34)
+        assertThat(reportFile.sendingOrg).isNull()
+        assertThat(reportFile.itemCount).isEqualTo(0)
 
         // not allowed to track the same report twice.
-        assertFails { actionHistory1.trackCreatedReport(event1, report1, orgReceiver, blobInfo1) }
+        assertThat { actionHistory1.trackCreatedReport(event1, report1, orgReceiver, blobInfo1) }.isFailure()
     }
 
     @Test
@@ -132,16 +136,17 @@ class ActionHistoryTests {
         val uuid = UUID.randomUUID()
         val actionHistory1 = ActionHistory(TaskAction.send)
         actionHistory1.trackExistingInputReport(uuid)
-        assertNotNull(actionHistory1.reportsIn[uuid])
+        // assertNotNull(actionHistory1.reportsIn[uuid])
+        assertThat(actionHistory1.reportsIn[uuid]).isNotNull()
         val reportFile = actionHistory1.reportsIn[uuid] !!
-        assertNull(reportFile.schemaName)
-        assertNull(reportFile.schemaTopic)
-        assertNull(reportFile.receivingOrg)
-        assertNull(reportFile.receivingOrgSvc)
-        assertNull(reportFile.sendingOrg)
-        assertEquals(null, reportFile.itemCount)
+        assertThat(reportFile.schemaName).isNull()
+        assertThat(reportFile.schemaTopic).isNull()
+        assertThat(reportFile.receivingOrg).isNull()
+        assertThat(reportFile.receivingOrgSvc).isNull()
+        assertThat(reportFile.sendingOrg).isNull()
+        assertThat(null).isEqualTo(reportFile.itemCount)
         // not allowed to track the same report twice.
-        assertFails { actionHistory1.trackExistingInputReport(uuid) }
+        assertThat { actionHistory1.trackExistingInputReport(uuid) }.isFailure()
     }
 
     @Test
@@ -159,22 +164,26 @@ class ActionHistoryTests {
         val orgReceiver = org.receivers[0]
         val actionHistory1 = ActionHistory(TaskAction.receive)
         actionHistory1.trackSentReport(orgReceiver, uuid, "filename1", "params1", "result1", 15)
-        assertNotNull(actionHistory1.reportsOut[uuid])
+        assertThat(actionHistory1.reportsOut[uuid]).isNotNull()
         val reportFile = actionHistory1.reportsOut[uuid] !!
-        assertEquals("schema1", reportFile.schemaName)
-        assertEquals("topic1", reportFile.schemaTopic)
-        assertEquals("myOrg", reportFile.receivingOrg)
-        assertEquals("filename1", reportFile.externalName)
-        assertEquals("params1", reportFile.transportParams)
-        assertEquals("result1", reportFile.transportResult)
-        assertEquals("myService", reportFile.receivingOrgSvc)
-        assertEquals("REDOX", reportFile.bodyFormat)
-        assertNull(reportFile.sendingOrg)
-        assertNull(reportFile.bodyUrl)
-        assertNull(reportFile.blobDigest)
-        assertEquals(15, reportFile.itemCount)
+        assertThat("schema1").isEqualTo(reportFile.schemaName)
+        assertThat("topic1").isEqualTo(reportFile.schemaTopic)
+        assertThat("myOrg").isEqualTo(reportFile.receivingOrg)
+        assertThat("filename1").isEqualTo(reportFile.externalName)
+        assertThat("params1").isEqualTo(reportFile.transportParams)
+        assertThat("result1").isEqualTo(reportFile.transportResult)
+        assertThat("myService").isEqualTo(reportFile.receivingOrgSvc)
+        assertThat("REDOX").isEqualTo(reportFile.bodyFormat)
+        assertThat(reportFile.sendingOrg).isNull()
+        assertThat(reportFile.bodyUrl).isNull()
+        assertThat(reportFile.blobDigest).isNull()
+        assertThat(15).isEqualTo(reportFile.itemCount)
         // not allowed to track the same report twice.
-        assertFails { actionHistory1.trackSentReport(orgReceiver, uuid, "filename1", "params1", "result1", 15) }
+        assertThat {
+            actionHistory1.trackSentReport(
+                orgReceiver, uuid, "filename1", "params1", "result1", 15
+            )
+        }.isFailure()
     }
 
     @Test
@@ -204,17 +213,21 @@ class ActionHistoryTests {
         val actionHistory1 = ActionHistory(TaskAction.download)
         val uuid2 = UUID.randomUUID()
         actionHistory1.trackDownloadedReport(header, "filename1", uuid2, "bob")
-        assertNotNull(actionHistory1.reportsOut[uuid2])
+        assertThat(actionHistory1.reportsOut[uuid2]).isNotNull()
         val reportFile2 = actionHistory1.reportsOut[uuid2] !!
-        assertEquals("myRcvr", reportFile2.receivingOrgSvc)
-        assertEquals("myOrg", reportFile2.receivingOrg)
-        assertEquals("filename1", reportFile2.externalName)
-        assertEquals("bob", reportFile2.downloadedBy)
-        assertNull(reportFile2.sendingOrg)
-        assertNull(reportFile2.bodyUrl)
-        assertNull(reportFile2.blobDigest)
+        assertThat("myRcvr").isEqualTo(reportFile2.receivingOrgSvc)
+        assertThat("myOrg").isEqualTo(reportFile2.receivingOrg)
+        assertThat("filename1").isEqualTo(reportFile2.externalName)
+        assertThat("bob").isEqualTo(reportFile2.downloadedBy)
+        assertThat(reportFile2.sendingOrg).isNull()
+        assertThat(reportFile2.bodyUrl).isNull()
+        assertThat(reportFile2.blobDigest).isNull()
         // not allowed to track the same report twice.
-        assertFails { actionHistory1.trackDownloadedReport(header, "filename1", uuid2, "bob") }
+        assertThat {
+            actionHistory1.trackDownloadedReport(
+                header, "filename1", uuid2, "bob"
+            )
+        }.isFailure()
     }
 
     /**
@@ -222,7 +235,7 @@ class ActionHistoryTests {
      * What I'd really like to do is confirm that two sql inserts were generated,
      * one to insert into ACTION and one to insert into REPORT_FILE.
      */
-//    @Test
+//    @Test 
     fun `test saveToDb with an externally received report`() {
         val dataProvider = MockDataProvider { emptyArray<MockResult>() }
         val connection = MockConnection(dataProvider) as DSLContext // ? why won't this work?
@@ -243,15 +256,10 @@ class ActionHistoryTests {
         val blobInfo1 = BlobAccess.BlobInfo(Report.Format.CSV, "myUrl", byteArrayOf(0x11, 0x22))
         actionHistory1.trackExternalInputReport(incomingReport, blobInfo1)
 
-        // Not sure how to get a transaction obj, to pass to saveToDb. ?
-//        every { connection.transaction(any()) }.returns(Unit)
-
         mockDb.transact { txn -> actionHistory1.saveToDb(txn) }
 
         verify(exactly = 1) {
-//            connection.transaction(block = any() as TransactionalRunnable)
         }
-//        confirmVerified(connection)
     }
 
     @Test
@@ -308,21 +316,23 @@ class ActionHistoryTests {
         //   "destinationCount":2}
 
         val json = outStream.toString()
-        assertTrue { json.isNotEmpty() }
+        // assertTrue { json.isNotEmpty() }
+        assertThat(json.isNotEmpty()).isTrue()
         var tree: JsonNode? = jacksonObjectMapper().readTree(json)
-        assertNotNull(tree)
-        assertTrue(tree["destinationCount"].isInt)
-        assertEquals(2, tree["destinationCount"].intValue())
-        val arr = tree["destinations"] as ArrayNode
-        assertEquals(2, arr.size())
+        // assertNotNull(tree)
+        assertThat(tree).isNotNull()
+        tree?.get("destinationCount")?.let { assertThat(it.isInt).isTrue() }
+        tree?.get("destinationCount")?.let { assertThat(2).isEqualTo(it.intValue()) }
+        val arr = tree?.get("destinations") as ArrayNode
+        assertThat(2).isEqualTo(arr.size())
 
-        assertEquals("foo bar", arr[0]["organization"].textValue())
-        assertEquals("immediately", arr[0]["sending_at"].textValue())
-        assertEquals(17, arr[0]["itemCount"].intValue())
+        assertThat("foo bar").isEqualTo(arr[0]["organization"].textValue())
+        assertThat("immediately").isEqualTo(arr[0]["sending_at"].textValue())
+        assertThat(17).isEqualTo(arr[0]["itemCount"].intValue())
 
-        assertEquals("org1", arr[1]["organization_id"].textValue())
-        assertEquals("service1", arr[1]["service"].textValue())
-        assertEquals(1, arr[1]["itemCount"].intValue())
+        assertThat("org1").isEqualTo(arr[1]["organization_id"].textValue())
+        assertThat("service1").isEqualTo(arr[1]["service"].textValue())
+        assertThat(1).isEqualTo(arr[1]["itemCount"].intValue())
 
         // Another test, this time add a 3rd ReportFile with same org as the one of the others.
         val r2 = ReportFile(r1)
@@ -340,8 +350,8 @@ class ActionHistoryTests {
         assertNotNull(tree2)
         assertEquals(2, tree2["destinationCount"].intValue()) // still 2 destinations, even with 3 ReportFile
         val arr2 = tree2["destinations"] as ArrayNode
-        assertEquals(2, arr2.size()) // still 2 destinations, even with 3 ReportFile
-        assertEquals(2, arr2[1]["itemCount"].intValue()) // second destination now has 2 items instead of 1.
+        assertThat(2).isEqualTo(arr2.size()) // still 2 destinations, even with 3 ReportFile
+        assertThat(2).isEqualTo(arr2[1]["itemCount"].intValue()) // second destination now has 2 items instead of 1.
 
         // Another test, test report option SkipSend
         outStream = ByteArrayOutputStream()
@@ -353,6 +363,8 @@ class ActionHistoryTests {
         val json3 = outStream.toString()
         val tree3: JsonNode? = jacksonObjectMapper().readTree(json3)
         val arr3 = tree3?.get("destinations") as ArrayNode?
-        assertEquals("never - skipSend specified", arr3?.get(0)?.get("sending_at")?.textValue() ?: "")
+        assertThat("never - skipSend specified").isEqualTo(
+            arr3?.get(0)?.get("sending_at")?.textValue() ?: ""
+        )
     }
 }

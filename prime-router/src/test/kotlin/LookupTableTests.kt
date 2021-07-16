@@ -1,11 +1,12 @@
 package gov.cdc.prime.router
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isFalse
+import assertk.assertions.isNull
+import assertk.assertions.isTrue
 import java.io.ByteArrayInputStream
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class LookupTableTests {
     private val table: LookupTable
@@ -22,24 +23,24 @@ class LookupTableTests {
 
     @Test
     fun `test read table`() {
-        assertEquals(3, table.rowCount)
+        assertThat(3).isEqualTo(table.rowCount)
     }
 
     @Test
     fun `test lookup`() {
-        assertTrue(table.hasColumn("a"))
-        assertEquals("4", table.lookupValue("a", "3", "b"))
+        assertThat(table.hasColumn("a")).isTrue()
+        assertThat("4").isEqualTo(table.lookupValue("a", "3", "b"))
     }
 
     @Test
     fun `test lookup second column`() {
-        assertEquals("3", table.lookupValue("b", "4", "a"))
+        assertThat("3").isEqualTo(table.lookupValue("b", "4", "a"))
     }
 
     @Test
     fun `test bad lookup`() {
-        assertFalse(table.hasColumn("c"))
-        assertNull(table.lookupValue("a", "3", "c"))
+        assertThat(table.hasColumn("c")).isFalse()
+        assertThat(table.lookupValue("a", "3", "c")).isNull()
     }
 
     @Test
@@ -51,16 +52,16 @@ class LookupTableTests {
             5,6,C
         """.trimIndent()
         val table = LookupTable.read(ByteArrayInputStream(csv.toByteArray()))
-        assertEquals("B", table.lookupValues(listOf("a" to "3", "b" to "4"), "c"))
-        assertEquals("A", table.lookupValues(listOf("a" to "1", "b" to "2"), "c"))
-        assertNull(table.lookupValues(listOf("a" to "1", "b" to "6"), "c"))
+        assertThat("B").isEqualTo(table.lookupValues(listOf("a" to "3", "b" to "4"), "c"))
+        assertThat("A").isEqualTo(table.lookupValues(listOf("a" to "1", "b" to "2"), "c"))
+        assertThat(table.lookupValues(listOf("a" to "1", "b" to "6"), "c")).isNull()
     }
 
     @Test
     fun `test table filter`() {
         val listOfValues = table.filter("a", "1", "b")
-        assertFalse(listOfValues.isEmpty())
-        assertEquals("2", listOfValues[0])
+        assertThat(listOfValues.isEmpty()).isFalse()
+        assertThat("2").isEqualTo(listOfValues[0])
     }
 
     @Test
@@ -73,8 +74,8 @@ class LookupTableTests {
         """.trimIndent()
         val table = LookupTable.read(ByteArrayInputStream(csv.toByteArray()))
         val listOfValues = table.filter("c", "A", "A")
-        assertFalse(listOfValues.isEmpty())
-        assertEquals("1", listOfValues[0])
+        assertThat(listOfValues.isEmpty())
+        assertThat("1").isEqualTo(listOfValues[0])
     }
 
     @Test
@@ -87,7 +88,7 @@ class LookupTableTests {
         """.trimIndent()
         val table = LookupTable.read(ByteArrayInputStream(csv.toByteArray()))
         val listOfValues = table.filter("c", "a", "A", false)
-        assertTrue(listOfValues.isEmpty())
+        assertThat(listOfValues.isEmpty()).isTrue()
     }
 
     @Test
@@ -100,7 +101,7 @@ class LookupTableTests {
         """.trimIndent()
         val table = LookupTable.read(ByteArrayInputStream(csv.toByteArray()))
         val value = table.lookupValue("c", "c", "a", false)
-        assertTrue(value.isNullOrEmpty())
+        assertThat(value.isNullOrEmpty()).isTrue()
     }
 
     @Test
@@ -121,7 +122,7 @@ class LookupTableTests {
             )
         )
         // assert
-        assertTrue(matchingRows?.isNotEmpty() == true)
-        assertTrue(matchingRows?.getOrElse(0) { null } == "Rutland")
+        assertThat(matchingRows?.isNotEmpty() == true).isTrue()
+        assertThat(matchingRows?.getOrElse(0) { null } == "Rutland").isTrue()
     }
 }

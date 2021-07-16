@@ -477,12 +477,14 @@ open class BaseHistoryFunction {
     }
 
     fun getActionsForReportId(reportId: String, authClaim: AuthClaims): ArrayList<Action> {
-        var header: Header?
+        var header: Header? // variable is assigned but never used
         var actions: ArrayList<Action> = ArrayList<Action>()
 
-        try {
-            header = workflowEngine.fetchHeader(ReportId.fromString(reportId), authClaim.organization)
-        } catch (ex: Exception) { header = null }
+        header = try {
+            workflowEngine.fetchHeader(ReportId.fromString(reportId), authClaim.organization)
+        } catch (ex: Exception) {
+            null
+        }
 
         /* 
         if( header !== null && header.itemLineages !== null ){

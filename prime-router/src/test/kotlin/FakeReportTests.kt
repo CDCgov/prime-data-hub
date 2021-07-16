@@ -4,10 +4,9 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
+import assertk.assertions.isTrue
 import java.io.ByteArrayInputStream
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.fail
 
 class FakeReportTests {
@@ -57,14 +56,14 @@ class FakeReportTests {
             ?.findElement("blank_column")
             ?: fail("Lookup failure: blank_column")
         val fakeValue = FakeReport(metadata).buildColumn(blankColumn, rowContext)
-        assertEquals("", fakeValue, "Expected a blank column but received '$fakeValue' instead")
+        assertThat(fakeValue).isEqualTo("")
     }
 
     @Test
     fun `test a coded fake`() {
         val state = metadata.findSchema("test")?.findElement("patient_state") ?: fail("Lookup failure: patient_state")
         val fakeValue = FakeReport(metadata).buildColumn(state, rowContext)
-        assertEquals("AZ", fakeValue)
+        assertThat(fakeValue).isEqualTo("AZ")
     }
 
     @Test
@@ -76,9 +75,8 @@ class FakeReportTests {
         // default format for phones in FakeReport is "##########:1:". checking for that here
         // todo: update for different formats as we expand the offerings for other consumers
         val phoneRegex = "\\d{10}:1:".toRegex()
-        assertTrue("Generated phone number doesn't match expected default pattern. Was $fakedNumber") {
-            phoneRegex.matches(fakedNumber)
-        }
+
+        assertThat(phoneRegex.matches(fakedNumber)).isTrue()
     }
 
     @Test
@@ -90,9 +88,8 @@ class FakeReportTests {
         // default format for phones in FakeReport is "##########:1:". checking for that here
         // todo: update for different formats as we expand the offerings for other consumers
         val phoneRegex = "\\d{10}".toRegex()
-        assertTrue("Generated phone number doesn't match specified pattern. Was $fakedNumber") {
-            phoneRegex.matches(fakedNumber)
-        }
+
+        assertThat(phoneRegex.matches(fakedNumber)).isTrue()
     }
 
     // todo: update when we provide different formats for different consumers
@@ -103,9 +100,10 @@ class FakeReportTests {
         val fakedPostalCode = FakeReport(metadata).buildColumn(postalCodeElement, rowContext)
         val postalCodeRegex = "^\\d{5}$".toRegex()
         val postalCodeRegex2 = "^\\d{5}-\\d{4}$".toRegex()
-        assertTrue("Postal code generated does not match expected pattern. Was $fakedPostalCode") {
+
+        assertThat(
             postalCodeRegex.matches(fakedPostalCode) || postalCodeRegex2.matches(fakedPostalCode)
-        }
+        ).isTrue()
     }
 
     @Test
@@ -114,9 +112,8 @@ class FakeReportTests {
             ?.findElement("default_date") ?: fail("Lookup failure: default_date")
         val fakedDate = FakeReport(metadata).buildColumn(defaultDateElement, rowContext)
         val defaultDateFormatRegex = "^\\d{8}$".toRegex()
-        assertTrue("Date does not match expected format. Received: $fakedDate") {
-            defaultDateFormatRegex.matches(fakedDate)
-        }
+
+        assertThat(defaultDateFormatRegex.matches(fakedDate)).isTrue()
     }
 
     @Test
@@ -163,8 +160,8 @@ class FakeReportTests {
         val setOfStates = states.toSet()
 
         // assert
-        assertTrue(setOfStates.contains("FL"), "Set does not contain string expected")
-        assertTrue(setOfStates.count() == 1, "Set contains other values not expected: ${setOfStates.joinToString()}")
+        assertThat(setOfStates.contains("FL")).isTrue()
+        assertThat(setOfStates.count() == 1).isTrue()
     }
 
     @Test
@@ -175,7 +172,7 @@ class FakeReportTests {
 
         val actual = FakeReport(metadata).buildMappedColumn(useField, rowContext)
         val expected = "Any lab USA"
-        assertEquals(expected, actual, "Expected $expected but received $actual")
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test

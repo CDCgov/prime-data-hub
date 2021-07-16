@@ -1,5 +1,7 @@
 package gov.cdc.prime.router.secrets
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.azure.core.credential.TokenCredential
 import com.azure.security.keyvault.secrets.SecretClient
 import com.azure.security.keyvault.secrets.SecretClientBuilder
@@ -13,7 +15,6 @@ import io.mockk.verify
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 internal class AzureSecretServiceTests {
     private val secretService = spyk(AzureSecretService, recordPrivateCalls = true)
@@ -46,7 +47,7 @@ internal class AzureSecretServiceTests {
         verify { secretClientBuilder.vaultUrl("https://$KEY_VAULT_NAME.vault.azure.net") }
         verify { secretClientBuilder.credential(mockAzureCredential) }
 
-        assertEquals(secretClient, retVal, "Expects mock secret client to be returned")
+        assertThat(secretClient).isEqualTo(retVal)
     }
 
     @Test
@@ -55,7 +56,7 @@ internal class AzureSecretServiceTests {
             secretClient.getSecret("functionapp-secret-name")
         } returns KeyVaultSecret("functionapp-secret-name", "From Azure")
         val secret = secretService.fetchSecret("SECRET_NAME")
-        assertEquals("From Azure", secret, "Expected secret not returned")
+        assertThat("From Azure").isEqualTo(secret)
     }
 
     companion object {

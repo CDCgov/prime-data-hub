@@ -1,8 +1,9 @@
 package gov.cdc.prime.router.credentials
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isTrue
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 internal class CredentialTests {
 
@@ -10,15 +11,19 @@ internal class CredentialTests {
     fun `test polymorphic serialization of UserPassCredential`() {
         val credential = UserPassCredential("user", "pass")
         val expectedJson = "{\"@type\":\"UserPass\",\"user\":\"user\",\"pass\":\"pass\"}"
-        assertEquals(expectedJson, credential.toJSON(), "Generated JSON does not match")
+        assertThat(expectedJson).isEqualTo(credential.toJSON())
     }
 
     @Test
     fun `test polymorphic deserialization of UserPassCredential`() {
         val json = "{\"@type\":\"UserPass\",\"user\":\"user\",\"pass\":\"pass\"}"
         val credential = Credential.fromJSON(json)
-        assertTrue(credential is UserPassCredential, "Deserialized class is not UserPassCredential")
-        assertEquals("user", credential.user, "User did not match")
-        assertEquals("pass", credential.pass, "Pass did not match")
+        @Suppress("USELESS_IS_CHECK")
+        assertThat(credential is UserPassCredential).isTrue() // Gives off warning message: instance is always 'true'
+        // Needed to gain access to credential.user and credential.pass
+        if (credential is UserPassCredential) {
+            assertThat("user").isEqualTo(credential.user)
+            assertThat("pass").isEqualTo(credential.pass)
+        }
     }
 }

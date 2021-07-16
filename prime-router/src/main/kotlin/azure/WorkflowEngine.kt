@@ -184,7 +184,7 @@ class WorkflowEngine(
         // Send immediately.
         val nextEvent = ReportEvent(Event.EventAction.SEND, reportId, at = null)
         db.transact { txn ->
-            val task = db.fetchAndLockTask(reportId, txn)
+            val task = db.fetchAndLockTask(reportId, txn) // Required, it creates lock.
             val organization = settings.findOrganization(receiver.organizationName)
                 ?: throw Exception("No such organization ${receiver.organizationName}")
             val header = fetchHeader(reportId, organization) // exception if not found

@@ -1,8 +1,9 @@
 package gov.cdc.prime.router.credentials
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import java.lang.IllegalArgumentException
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.fail
 
 internal class CredentialServiceTests : CredentialManagement {
@@ -18,7 +19,7 @@ internal class CredentialServiceTests : CredentialManagement {
         val retVal = credentialService.fetchCredential(
             connectionId, "CredentialServiceTest", CredentialRequestReason.AUTOMATED_TEST
         )
-        assertEquals(VALID_CREDENTIAL, retVal, "Credential service did not return expected credential")
+        assertThat(VALID_CREDENTIAL).isEqualTo(retVal)
     }
 
     @Test
@@ -39,7 +40,7 @@ internal class CredentialServiceTests : CredentialManagement {
                 )
                 fail("IllegalArgumentException not thrown for $it")
             } catch (e: IllegalArgumentException) {
-                assertEquals("connectionId must match: ^[a-zA-Z0-9-]*\$", e.message)
+                assertThat("connectionId must match: ^[a-zA-Z0-9-]*\$").isEqualTo(e.message)
             }
         }
     }
@@ -58,7 +59,7 @@ internal class CredentialServiceTests : CredentialManagement {
                 credentialService.saveCredential(it, VALID_CREDENTIAL, "CredentialServiceTest")
                 fail("IllegalArgumentException not thrown for $it")
             } catch (e: IllegalArgumentException) {
-                assertEquals("connectionId must match: ^[a-zA-Z0-9-]*\$", e.message)
+                assertThat("connectionId must match: ^[a-zA-Z0-9-]*\$").isEqualTo(e.message)
             }
         }
     }

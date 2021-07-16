@@ -163,8 +163,8 @@ class SftpTransport : ITransport, Logging {
             val lsResults = mutableListOf<String>()
             try {
                 try {
-                    sshClient.use { sshClient ->
-                        sshClient.newSFTPClient().use {
+                    sshClient.use { client ->
+                        client.newSFTPClient().use {
                             it.ls(path, resourceFilter).map { l -> lsResults.add(l.toString()) }
                         }
                     }
@@ -188,8 +188,8 @@ class SftpTransport : ITransport, Logging {
         fun rm(sshClient: SSHClient, path: String, fileName: String) {
             try {
                 try {
-                    sshClient.use { sshClient ->
-                        sshClient.newSFTPClient().use {
+                    sshClient.use { client ->
+                        client.newSFTPClient().use {
                             it.rm("$path/$fileName")
                         }
                     }
@@ -209,7 +209,7 @@ class SftpTransport : ITransport, Logging {
         }
 
         fun pwd(sshClient: SSHClient): String {
-            var pwd = ""
+            var pwd: String
             try {
                 sshClient.newStatefulSFTPClient().use { client ->
                     val statefulClient = client as StatefulSFTPClient

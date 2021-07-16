@@ -1,5 +1,9 @@
 package gov.cdc.prime.router.credentials
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
+import assertk.assertions.isTrue
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.Method
 import io.mockk.every
@@ -11,9 +15,6 @@ import net.wussmann.kenneth.mockfuel.data.MockResponse
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 internal class HashicorpVaultCredentialServiceTests {
 
@@ -53,9 +54,12 @@ internal class HashicorpVaultCredentialServiceTests {
             assertHeader("X-Vault-Token", VAULT_TOKEN)
         }
 
-        assertTrue(credential is UserPassCredential, "Deserialized class is not UserPassCredential")
-        assertEquals("user", credential.user, "User did not match")
-        assertEquals("pass", credential.pass, "Pass did not match")
+        @Suppress("USELESS_IS_CHECK")
+        assertThat(credential is UserPassCredential).isTrue()
+        if (credential is UserPassCredential) {
+            assertThat("user").isEqualTo(credential.user)
+            assertThat("pass").isEqualTo(credential.pass)
+        }
     }
 
     @Test
@@ -74,7 +78,7 @@ internal class HashicorpVaultCredentialServiceTests {
             assertHeader("X-Vault-Token", VAULT_TOKEN)
         }
 
-        assertNull(credential)
+        assertThat(credential).isNull()
     }
 
     @Test
