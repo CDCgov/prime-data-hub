@@ -1,0 +1,7 @@
+Input File,Input schema,Expected File,Output schema,Output format,Result
+CSV_to_HL7/sample-batch-pdi-20210608-0001.csv,primedatainput/pdi-covid-19,CSV_to_HL7/sample-batch-pdi-20210608-0001.hl7,hl7/hl7-ingest-covid-19,HL7_BATCH,PASS
+CSV_to_HL7/sample-single-pdi-20210608-0002.csv,primedatainput/pdi-covid-19,CSV_to_HL7/sample-single-pdi-20210608-0002.hl7,hl7/hl7-ingest-covid-19,HL7,PASS
+HL7_to_INTERNAL/CE-20200415-0001.hl7,hl7/hl7-ingest-covid-19,HL7_to_INTERNAL/CE-20200415-0001.internal.csv,covid-19,INTERNAL,PASS
+HL7_to_INTERNAL/EHT-20210316-0001.hl7,hl7/hl7-ingest-covid-19,HL7_to_INTERNAL/EHT-20210316-0001.internal.csv,covid-19,INTERNAL,PASS
+HL7_to_INTERNAL/FLFHospital-SARSCOV2-20200317-0001.hl7,hl7/hl7-ingest-covid-19,HL7_to_INTERNAL/FLFHospital-SARSCOV2-20200317-0001.internal.csv,covid-19,INTERNAL,PASS
+HL7_to_INTERNAL/CA-20201129-0001.hl7,hl7/hl7-ingest-covid-19,HL7_to_INTERNAL/CA-20201129-0001.internal.csv,covid-19,INTERNAL,FAIL

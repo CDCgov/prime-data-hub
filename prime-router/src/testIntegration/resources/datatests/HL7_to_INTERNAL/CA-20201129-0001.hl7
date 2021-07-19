@@ -1,0 +1,161 @@
+MSH|^~\&#|Dummy LAB^1.3.6.1.9.9.99999^ISO|Dummy Hospital^9999999999^CLIA|NEDSS|TX-ELR|20271129030021-0600||ORU^R01^ORU_R01|MT_COCRR_ORU_RRPHELR.1.6414828|P|2.5.1|||||||||PHLabReport-NoAck^HL7^2.16.840.1.113883.9.11^ISO
+SFT|Dummy, Inc.^L^^^^Dummy&1.3.6.1.9.9.99999&ISO^XX^^^Dummy|5.67|Laboratory Applicati|20201129||20201129
+PID|1||100001^^^&1.3.6.1.9.9.99999&ISO^MR^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO~456-45-4487^^^&1.3.6.1.9.9.99999&ISO^SS^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO~HA1120631^^^&1.3.6.1.9.9.99999&ISO^PI^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO~HA1022438561^^^&1.3.6.1.9.9.99999&ISO^AN^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO||KESINGTON^JANE^DOE^^^^L|^^|20000805|F||2106-3^White^HL70005^W^WHITE^L^2.5.1^5.67|9999 SOME DR^^GUNNISON^CO^78572^USA^H^^HID||^PRN^PH^^1^999^9999999|^WPN^PH^^1^999^9999999^^Business||M|CAT|||||||||||||N|||20201129220900-0600|9999999999^2.16.840.1.113883.3.1110.3.1.372^ISO|337915000^Homo sapiens (organism)^SCT^Human^Human^L^1^1
+NTE|1|P|HEADACHE, FEVER, BODY ACHES, PAINFUL URINATION|RE^Remark^HL70364^C^Comment^L^2.5.1^V1
+NK1|1|JOHN^DOE^^^^^L|SPO^Spouse^HL70063^SPOU^SPOUSE^L^2.5.1^5.67|9999 SOME STREET^^TAYLORSVILLE^UT^78572^USA^H^^HID|^PRN^PH^^1^999^9999999||||||||||||||||||||||||||^WPN^PH^^1^325^7167541|3491 COSMOS DR^^MISSION^TX^78572^USA^H^^HID
+PV1|1|E|H.MER|E|||1003977323^Doe^Jane^A^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI|.SELF^Referred^Self^^^^^^HCA Houston Southeas&&ISO^^^^XX|.SELF^Referred^Self^^^^^^HCA Houston Southeas&&ISO^^^^XX|||||PR||||ER||PPO|||||||||||||||||||COCRR||RE|||202711290004
+ORC|RE|07417117^L9900816.1^2.16.840.1.113883.3.1110.3.1.372^ISO|1129:RR:S00079R.1^L9900816.1^2.16.840.1.113883.3.1110.3.1.372^ISO|1129:RR:S00079R^L9900816^2.16.840.1.113883.3.1110.3.1.372^ISO||N|||202711290300|||1003977323^Dorian^Grey^A^^^^^NPI&2.16.840.1.113883.3.1110.3.1.372&ISO^L^^^NPI^COCRR&2.16.840.1.113883.3.1110.3.1.372&ISO^^^^^^^MD||^WPN^PH^^1^999^9999999^^Hospital Line|202011292143||RGRH FREE STANDING E||||RGRH FREE STANDING E.D.^L^^^^RGRH FREE STANDING E&2.16.840.1.113883.3.1110.3.1.372&ISO^XX^^^45D2045366|5100 WEST EXPWY 83^^MCALLEN^TX^78503^USA^B^^HID|^WPN^PH^^1^999^9999999|101 E Ridge Rd^^McAllen^TX^78503^USA^B^^HID
+OBR|1|07417117^L9900816.1^2.16.840.1.113883.3.1110.3.1.372^ISO|1129:RR:S00079R.1^L9900816.1^2.16.840.1.113883.3.1110.3.1.372^ISO|COVID19FLU^COVID 19 AND FLU SET^L^^^^5.67|||20271129004501-0600|20271129004501-0600||0|||HEADACHE, FEVER, BODY ACHES, PAINFUL URINATION|||1003977323^Dorian^Grey^A^^^^^NPI&2.16.840.1.113883.3.1110.3.1.372&ISO^L^^^NPI^COCRR&2.16.840.1.113883.3.1110.3.1.372&ISO^^^^^^^MD|^WPN^PH^^1^999^9999999^^Hospital Line||07417117||RGRH FREE STANDING E.D.|20271129030000-0600|||F||^^^^|||||||||
+NTE|1|L|First test? Yes|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|2|L|Employed in Healthcare? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|3|L|Symptomatic as defined by CDC? Yes|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|4|L|Date of Symptom Onset: 11/28/20|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|5|L|Hospitalized due to COVID? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|6|L|In ICU due to COVID? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|7|L|Resident in a congregate care setting? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|8|L|Pregnant? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|9|L|Age at collection: Y|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+TQ1|1||||||20271129004501-0600|20271129030021-0600|R
+OBX|1|CWE|94309-2^SARS-CoV-2 (COVID-19) RNA [Presence] in Unspecified specimen by NAA with probe detection^LN^COVID19IH^Novel Coronavirus 2019 Inhouse^L^2.40^5.67||260385009^Negative^SCT^NEGATIVE^NEGATIVE^L^5.67^^NEGATIVE||NEGATIVE||||F|||20271129004501-0600|R^RIO GRANDE REG HOSP 42238535^LB||7332940006815_DII^^99ELR||20271129030000-0600||||RIO GRANDE REG HOSP 42238535^L^^^^RIO GRANDE REG HOSP &2.16.840.1.113883.3.1110.3.1.372&ISO^XX^^^9999999999|101 East Ridge Road^^McAllen^TX^78503^USA^B^^HID|1285664755^VALENCIA^JOSE^L.^^^^^9999999999&&ISO^L^^^FI^RIO GRANDE REG HOSP &&ISO^^^^^^^MD
+NTE|1|L|Results are for the detection of SARS-CoV-2 RNA. The|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|2|L|SARS-CoV-2 RNA is generally detectable in upper respiratory |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|3|L|specimens during the acute phase of infection. Positive|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|4|L|results are indicative of active infection with SARS-CoV-2;|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|5|L|clinical correlation with patient history and other|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|6|L|diagnostic information is necessary to determine patient|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|7|L|infection status. Positive results do not rule out bacterial|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|8|L|infection or co-infection with other viruses. The agent|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|9|L|detected may not be the definite cause of disease. |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|10|L|Negative results do not preclude SARS-CoV-2 infection and|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|11|L|should not be used as the sole basis for treatment or other|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|12|L|patient management decisions. Negative results must be|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|13|L|combined with clinical observations, patient history, and|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|14|L|epidemiological information.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|15|L|The Xpert Xpress SARS-CoV-2 test is only for use under the|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|16|L|Food and Drug Administration's Emergency Use Authorization.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+SPM|1|07417117^L9900816&9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO||^^^^^^|||||||||||||20271129004501-0600^20271129004501-0600|20201129225600-0600
+MSH|^~\&#|Dummy LAB^1.3.6.1.9.9.99999^ISO|Dummy Hospital^9999999999^CLIA|NEDSS|TX-ELR|20271128211356-0600||ORU^R01^ORU_R01|MT_COCRR_ORU_RRPHELR.1.6414514|P|2.5.1|||||||||PHLabReport-NoAck^HL7^2.16.840.1.113883.9.11^ISO
+SFT|Dummy, Inc.^L^^^^Dummy&1.3.6.1.9.9.99999&ISO^XX^^^Dummy|5.67|Laboratory Applicati|20201129||20201129
+PID|1||100002^^^&1.3.6.1.9.9.99999&ISO^MR^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO~459-90-6856^^^&1.3.6.1.9.9.99999&ISO^SS^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO~HA8760^^^&1.3.6.1.9.9.99999&ISO^PI^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO~HA1022418181^^^&1.3.6.1.9.9.99999&ISO^AN^9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO||NANCY^JANE^DOE^^^^L|^^|19000611|F||2106-3^White^HL70005^W^WHITE^L^2.5.1^5.67|999 STREET^^SSL^UT^78502^USA^H^^HID||^PRN^PH^^1^999^9999999|^WPN^PH^^1^999^9999999^^Business||M|CHR|||||||||||||N|||20201124103400-0600|9999999999^2.16.840.1.113883.3.1110.3.1.372^ISO|337915000^Homo sapiens (organism)^SCT^Human^Human^L^1^1
+NTE|1|P|CAT SX W/IOL PANOPTIX TORIC RIGHT EYE|RE^Remark^HL70364^C^Comment^L^2.5.1^V1
+NK1|1|DOVE^KING^^^^^L|SPO^Spouse^HL70063^SPOU^SPOUSE^L^2.5.1^5.67|9999 DRIVE^^SEATTLE^WA^78502^USA^H^^HID|^PRN^PH^^1^999^9999999||||||||||||||||||||||||||^WPN^PH^^1^999^9999999|9999 STREET^^MCALLEN^TX^78502^USA^H^^HID
+PV1|1|P|H.RGSC|C|||1861460651^Dawn^Joe^Chu^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI|1861460651^Joe^Dawn^Chu^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI|1861460651^Joe^Dawn^Chu^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI|||||CR||||SDC||MMCR|||||||||||||||||||COCRR||PR|||202711301032
+ORC|RE|07414623^L9897773.1^2.16.840.1.113883.3.1110.3.1.372^ISO|1128:RR:S00031R.1^L9897773.1^2.16.840.1.113883.3.1110.3.1.372^ISO|1128:RR:S00031R^L9897773^2.16.840.1.113883.3.1110.3.1.372^ISO||N|||202711282113|||1861460651^Lee^Chevy^Chu^^^^^NPI&2.16.840.1.113883.3.1110.3.1.372&ISO^L^^^NPI^COCRR&2.16.840.1.113883.3.1110.3.1.372&ISO^^^^^^^MD||^WPN^PH^^1^999^9999999^^Hospital Line|202011280803||RIO GRANDE REG HOSP ||||RIO GRANDE REG HOSP 42238535^L^^^^RIO GRANDE REG HOSP &2.16.840.1.113883.3.1110.3.1.372&ISO^XX^^^9999999999|101 East Ridge Road^^McAllen^TX^78503^USA^B^^HID|^WPN^PH^^1^999^9999999|1913 S 1st Street Suite 100^^McAllen^TX^78503^USA^B^^HID
+OBR|1|07414623^L9897773.1^2.16.840.1.113883.3.1110.3.1.372^ISO|1128:RR:S00031R.1^L9897773.1^2.16.840.1.113883.3.1110.3.1.372^ISO|94309-2^SARS-CoV-2 (COVID-19) RNA [Presence] in Unspecified specimen by NAA with probe detection^LN^COVNONPUI^Novel Coronavirus 2019 Inhouse^L^2.40^5.67|||20271127110501-0600|20271127110501-0600||0|||CAT SX W/IOL PANOPTIX TORIC RIGHT EYE|||1861460651^Jy^Too^Me^^^^^NPI&2.16.840.1.113883.3.1110.3.1.372&ISO^L^^^NPI^COCRR&2.16.840.1.113883.3.1110.3.1.372&ISO^^^^^^^MD|^WPN^PH^^1^999^9999999^^Hospital Line||07414623||RIO GRANDE REG HOSP 42238535|20271128211300-0600|||F||^^^^||||H2511^AGE-RELATED NUCLEAR CATARACT, RIGHT EYE^I10^^^^38|H.LAB.ALM&Maldonado&Alicia&L.&&&&&9999999999&&ISO||||
+TQ1|1||||||20271127110501-0600|20271128211356-0600|R
+OBX|1|CWE|94309-2^SARS-CoV-2 (COVID-19) RNA [Presence] in Unspecified specimen by NAA with probe detection^LN^COVNONPUI^Novel Coronavirus 2019 Inhouse^L^2.40^5.67||260415000^Not detected^SCT^Not Detected^Not Detected^L^5.67^^Not Detected||Not Detected||||F|||20271127110501-0600|LCI^LAB CORP OF AMERICA^LB||7332940006815_DII^^99ELR||20271128211300-0600||||LAB CORP OF AMERICA^L^^^^LAB CORP OF AMERICA&2.16.840.1.113883.3.1110.3.1.372&ISO^XX^^^CAP 21069-01|7207 N. GESSNER^^HOUSTON^TX^77040^USA^B^^48201|^HOLDER^PAMELA^D.^^^^^9999999999&&ISO^L^^^FI^LAB CORP OF AMERICA&&ISO^^^^^^^MD
+NTE|1|L|Testing was performed using the Aptima SARS-CoV-2 assay.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|2|L|This nucleic acid amplification test was developed and its|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|3|L|performance characteristics determined by LabCorp|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|4|L|Laboratories. Nucleic acid amplification tests include PCR|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|5|L|and TMA. This test has not been FDA cleared or approved.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|6|L|This test has been authorized by FDA under an Emergency Use|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|7|L|Authorization (EUA). This test is only authorized for|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|8|L|the duration of time the declaration that circumstances|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|9|L|exist justifying the authorization of the emergency use of|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|10|L|in vitro diagnostic tests for detection of SARS-CoV-2 virus|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|11|L|and/or diagnosis of COVID-19 infection under section|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|12|L|564(b)(1) of the Act, 21 U.S.C. 360bbb-3(b) (1), unless the|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|13|L|authorization is terminated or revoked sooner.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|14|L|When diagnostic testing is negative, the possibility of a|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|15|L|false negative result should be considered in the context|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|16|L|of a patient's recent exposures and the presence of|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|17|L|clinical signs and symptoms consistent with COVID-19. An|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|18|L|individual without symptoms of COVID-19 and who is not|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|19|L|shedding SARS-CoV-2 virus would expect to have a negative|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|20|L|(not detected) result in this assay.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|21|L|Altru Dx COVID-19 Real-Time RT-PCR test is a lab developed|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|22|L|test (LDT) based on Applied Biosystems [tm TaqMan tm]|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|23|L|2019-nCoV assays targeting three SARS-CoV-2-genes|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|24|L|(ORF1ab,S-Protein and N-protein) and one positive control|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|25|L|assay that targets the Human RNaseP RPPH1 gene.  FDA's|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|26|L|independent review of this validation is pending.  The test|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|27|L|can be performed on nasopharyngeal swabs (NPS) obtained from|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|28|L|individuals suspected of COVID19.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|29|L| |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|30|L|THIS TEST PROCEDURE HAS THE FOLLOWING LIMITATIONS:|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|31|L|* The detection of viral nucleic acid is dependent upon|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|32|L|  proper specimen collection, handling, transportation,|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|33|L|  storage and preparation. Failure to observe proper|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|34|L|  procedures in any one of these steps can lead to incorrect|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|35|L|  results with the risk of false positive or false negative|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|36|L|  values. Specimen has to be stored at 2-8 degrees celsius|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|37|L|  no more than 72 hours.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|38|L|* Altru Dx COVID-19 test is a qualitative test and does not|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|39|L|  provide a quantitative value for the organism.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|40|L|* Results from this test must be correlated with the|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|41|L|  clinical history, epidemiological data and other data|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|42|L|  available to the clinician evaluating the patient.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|43|L|* Interference from substances that were not evaluated could|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|44|L|  lead to erroneous results.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|45|L|* A negative result does not exclude the possibility of|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|46|L|  COVID-19 infection. False negative test results may occur|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|47|L|  due to the presence of inhibitors. Test results may also|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|48|L|  be affected by levels of organism in the specimen that are|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|49|L|  below threshold detection for the test. Negative results|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|50|L|  should not be used as the sole basis for diagnosis,|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|51|L|  treatment, or other patient management decisions.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+SPM|1|07414623^L9897773&9999999999&2.16.840.1.113883.3.1110.3.1.372&ISO||^^^^^^|||||||||||||20271127110501-0600^20271127110501-0600|20201128091300-0600
+MSH|^~\&#|Dummy LAB^1.3.6.1.9.9.99999^ISO|West Houston Medical Center^45D0493805^CLIA|NEDSS|TX-ELR|20271129025520-0600||ORU^R01^ORU_R01|MT_COCWU_ORU_WUPHELR.1.6156755|P|2.5.1|||||||||PHLabReport-NoAck^HL7^2.16.840.1.113883.9.11^ISO
+SFT|Dummy, Inc.^L^^^^Dummy&1.3.6.1.9.9.99999&ISO^XX^^^Dummy|5.67|Laboratory Applicati|20201129||20201129
+PID|1||100003^^^Dummy LAB&1.3.6.1.9.9.99999&ISO^MR^45D0493805&2.16.840.1.113883.3.1110.3.1.417&ISO~Z750451^^^Dummy LAB&1.3.6.1.9.9.99999&ISO^PI^45D0493805&2.16.840.1.113883.3.1110.3.1.417&ISO~Z00124685213^^^Dummy LAB&1.3.6.1.9.9.99999&ISO^AN^45D0493805&2.16.840.1.113883.3.1110.3.1.417&ISO||DOE^JANE^^^^^L|^^|19420430|F|||^^^^^USA^H^|||||||||||||||||||N|||20201129223300-0600|45D0493805^2.16.840.1.113883.3.1110.3.1.417^ISO|337915000^Homo sapiens (organism)^SCT^Human^Human^L^1^1
+NTE|1|P|SYNCOPAL EPISODE|RE^Remark^HL70364^C^Comment^L^2.5.1^V1
+PV1|1|P|Z.ERS||||1558789834^Kolt^May^^^^DO^^HCA Houston Southeas&&ISO^^^^NPI|||||||||||ER|||||||||||||||||||||COCWU||PR|||202711290133
+ORC|RE|06861580^L14078438.1^2.16.840.1.113883.3.1110.3.1.417^ISO|1129:WU:S00071S.1^L14078438.1^2.16.840.1.113883.3.1110.3.1.417^ISO|1129:WU:S00071S^L14078438^2.16.840.1.113883.3.1110.3.1.417^ISO||N|||202711290255|||1558789834^Colt^May^^^^^^NPI&2.16.840.1.113883.3.1110.3.1.417&ISO^L^^^NPI^COCWU&2.16.840.1.113883.3.1110.3.1.417&ISO^^^^^^^DO||^WPN^PH^^1^999^9999999^^Hospital Line|202011292315||WHMC L 42814985 M428||||WHMC L 42814985 M42833605^L^^^^WHMC L 42814985 M428&2.16.840.1.113883.3.1110.3.1.417&ISO^XX^^^45D0493805|9999 AVENUE^^HOUSTON^TX^77082^USA^B^^48201|^WPN^PH^^1^999^9999999|9999 AVE^^HOUSTON^TX^77082^USA^B^^48201
+OBR|1|06861580^L14078438.1^2.16.840.1.113883.3.1110.3.1.417^ISO|1129:WU:S00071S.1^L14078438.1^2.16.840.1.113883.3.1110.3.1.417^ISO|94534-5^SARS-CoV-2 (COVID-19) RdRp gene [Presence] in Respiratory specimen by NAA with probe detection^LN^COVID19IHBED^Coronavirus 2019 nCoV Bedside^L^2.40^5.67|||20271129021701-0600|20271129021701-0600||CBN|||SYNCOPAL EPISODE|||1558789834^Kolt^May^^^^^^NPI&2.16.840.1.113883.3.1110.3.1.417&ISO^L^^^NPI^COCWU&2.16.840.1.113883.3.1110.3.1.417&ISO^^^^^^^DO|^WPN^PH^^1^281^5888211^^Hospital Line||06861580||WHMC L 42814985 M42833605|20271129025500-0600|||F||^^^^|||||Z.LAB.JAR1&Reyes&Julia&A&&&&&45D0493805&&ISO||||
+TQ1|1||||||20271129021701-0600|20271129025520-0600|S
+OBX|1|CWE|94534-5^SARS-CoV-2 (COVID-19) RdRp gene [Presence] in Respiratory specimen by NAA with probe detection^LN^COVID19IHBED^Coronavirus 2019 nCoV Bedside^L^2.40^5.67||10828004^Positive^SCT^Positive^Positive^L^5.67^^Positive||Negative||||F|||20271129021701-0600|ML^WHMC L 42814985 M42833605^LB||10811877011269_DII^^99ELR||20271129025500-0600||||WHMC L 42814985 M42833605^L^^^^WHMC L 42814985 M428&2.16.840.1.113883.3.1110.3.1.417&ISO^XX^^^45D0493805|12141 RICHMOND AVENUE^^HOUSTON^TX^77082^USA^B^^48201|1992917272^Bibb^Christopher^O.^^^^^45D0493805&&ISO^L^^^FI^WHMC L 42814985 M428&&ISO^^^^^^^M.D.
+NTE|1|L|CALLED RESULTS TO BRIANNA F|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|2|L|ON 11/29/27 AT 2353 BY Z.LAB.JAR1.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|3|L|Results are for the identification of SARS-CoV-2 RNA. The|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|4|L|SARS-CoV-2 RNA is generally detectable in respiratory|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|5|L|samples during the acute phase of infection. Positive|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|6|L|results are indicative of the presence of SARS-CoV-2 RNA;|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|7|L|clinical correlation with patient history and other|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|8|L|diagnostic information is necessary to determine patient|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|9|L|infection status. Positive results do not rule out bacterial|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|10|L|infection or co-infection with other viruses.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+SPM|1|06861580^L14078438&45D0493805&2.16.840.1.113883.3.1110.3.1.417&ISO||^^^UNK^Unspecified Source^L^^5.67|||||||||||||20271129021701-0600^20271129021701-0600|20201129232600-0600
+MSH|^~\&#|Dummy LAB^1.3.6.1.9.9.99999^ISO|Valley Regional Medical Center^45D0493805^CLIA|NEDSS|TX-ELR|20271128194855-0600||ORU^R01^ORU_R01|MT_COCCR_ORU_VAPHELR.1.4329779|P|2.5.1|||||||||PHLabReport-NoAck^HL7^2.16.840.1.113883.9.11^ISO
+SFT|Dummy, Inc.^L^^^^Dummy&1.3.6.1.9.9.99999&ISO^XX^^^Dummy|5.67|Laboratory Applicati|20201129||20201129
+PID|1||100004^^^&1.3.6.1.9.9.99999&ISO^MR^45D0503544&2.16.840.1.113883.3.1110.3.1.187&ISO~230-84-9951^^^&1.3.6.1.9.9.99999&ISO^SS^45D0503544&2.16.840.1.113883.3.1110.3.1.187&ISO~VR391362^^^&1.3.6.1.9.9.99999&ISO^PI^45D0503544&2.16.840.1.113883.3.1110.3.1.187&ISO~VR2020379248^^^&1.3.6.1.9.9.99999&ISO^AN^45D0503544&2.16.840.1.113883.3.1110.3.1.187&ISO||JSUT^DOE^^^^^L|^^|19891119|M||2131-1^Other Race^HL70005^Other^Other^L^2.5.1^5.67|9999 WAY^APT 2106^MILL VALLEY^CA^78526^USA^H^^48061||^PRN^PH^^1^999^9999|^WPN^PH^^1^000^0000000^^Business||S|CAT|||||||||||||N|||20201128105900-0600|45D0503544^2.16.840.1.113883.3.1110.3.1.187^ISO|337915000^Homo sapiens (organism)^SCT^Human^Human^L^1^1
+NTE|1|P|COVID SYMPTOMS|RE^Remark^HL70364^C^Comment^L^2.5.1^V1
+NK1|1|HEATHER^KIT^^^^^L|SIS^Sister^HL70063^SI^SISTER^L^2.5.1^5.67|9999 WY^^WOODROW^CO^00000^USA^H^|^PRN^PH^^1^999^9999999||||||||||||||||||||||||||^WPN^PH^^1^999^9999999|9999 WY^^WILLMINTON^NC^00000^USA^H
+PV1|1|I|VR.2W^VR.210^A|E|||1629072285^Pelly^Lorenzo^R^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI|1740549237^Ponce^Alejandra^^^^DO^^HCA Rio Grande Regio&&ISO^^^^NPI|1013441971^Singh^Vir^^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI~1184887697^Udeh^Darlington^C^^^MD^^Valley Regional MC^^^^NPI~1598805632^Mills^Gin^^^^MD^^HCA Rio Grande Regio^^^^NPI|MAS||||PR|||1629072285^Jane^Low^R^^^MD^^HCA Rio Grande Regio&&ISO^^^^NPI|IN||MMCR|||||||||||||||||||COCVA||AD|||202711261455
+ORC|RE|03867184^L12952226.1^2.16.840.1.113883.3.1110.3.1.187^ISO|1129:VA:S00031R.1^L12952226.1^2.16.840.1.113883.3.1110.3.1.187^ISO|1129:VA:S00031R^L12952226^2.16.840.1.113883.3.1110.3.1.187^ISO||N|||202711281948|||1598805632^Mills^Gin^^^^^^NPI&2.16.840.1.113883.3.1110.3.1.187&ISO^L^^^NPI^COCVA&2.16.840.1.113883.3.1110.3.1.187&ISO^^^^^^^MD||^WPN^PH^^1^999^9999999^^Hospital Line~^BPN^BP^^1^999^9999999^^Beeper|202011291606||VALLEY REGIONAL HOSP||||VALLEY REGIONAL HOSPITAL^L^^^^VALLEY REGIONAL HOSP&2.16.840.1.113883.3.1110.3.1.187&ISO^XX^^^45D0503544|100 E ALTON GLOOR BLVD #A^^BROWNSVILLE^TX^78526^USA^B^^48061|^WPN^PH^^1^999^3507488|840 West Price^^Brownsville^Tx^78520^USA^B^^48061
+OBR|1|03867184^L12952226.1^2.16.840.1.113883.3.1110.3.1.187^ISO|1129:VA:S00031R.1^L12952226.1^2.16.840.1.113883.3.1110.3.1.187^ISO|94534-5^SARS-CoV-2 (COVID-19) RdRp gene [Presence] in Respiratory specimen by NAA with probe detection^LN^COVNONPUIBED^Coronavirus 2019 nCoV Bedside^L^2.40^5.67|||20271128190801-0600|20271128190801-0600||VRERS.RB|||SOB|||1598805632^Mills^Charles^^^^^^NPI&2.16.840.1.113883.3.1110.3.1.187&ISO^L^^^NPI^COCVA&2.16.840.1.113883.3.1110.3.1.187&ISO^^^^^^^MD|^WPN^PH^^1^999^9999999^^Hospital Line~^BPN^BP^^1^999^9999999^^Beeper||03867184||VALLEY REGIONAL HOSPITAL|20271128194800-0600|||F||^^^^||||U071^COVID-19^I10^^^^38~E860^DEHYDRATION^I10^^^^38|VRLAB.PT1&Torres&Priscilla&&&&&&45D0503544&&ISO||||
+NTE|1|L|First test? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|2|L|Employed in Healthcare? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|3|L|Symptomatic as defined by CDC? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|4|L|Hospitalized due to COVID? Yes|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|5|L|In ICU due to COVID? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|6|L|Resident in a congregate care setting? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|7|L|Pregnant? No|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|8|L|Age at collection: Y|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|9|L|LOT # 1011675|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|10|L|EXP.DATE 05/19/21|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|11|L|PROCEDURAL CONTROL ACCEPTABLE Y/N Y|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+TQ1|1||||||20271128190801-0600|20271128194855-0600|R
+OBX|1|CWE|94534-5^SARS-CoV-2 (COVID-19) RdRp gene [Presence] in Respiratory specimen by NAA with probe detection^LN^COVNONPUIBED^Coronavirus 2019 nCoV Bedside^L^2.40^5.67||10828004^Positive^SCT^Presumptive Positive^Presumptive Positive^L^5.67^^Presumptive Positive||Presump.Neg|H^Above high normal^HL70078^H^H^L^2.5.1^5.67|||F|||20271128190801-0600|ML^VALLEY REGIONAL HOSPITAL^LB||10811877011269_DII^^99ELR||20271128194800-0600||||VALLEY REGIONAL HOSPITAL^L^^^^VALLEY REGIONAL HOSP&2.16.840.1.113883.3.1110.3.1.187&ISO^XX^^^45D0503544|100 E ALTON GLOOR BLVD #A^^BROWNSVILLE^TX^78526^USA^B^^48061|1487960969^Neumann^William^L.^^^^^45D0503544&&ISO^L^^^FI^VALLEY REGIONAL HOSP&&ISO^^^^^^^MD
+NTE|1|L|RESULTS CALLED TO PATIENCE,RN AT 1646 11/28/27.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|2|L|CRITICAL VALUE AND PATIENT IDENTIFIER READ BACK BY NURSE.Y|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|3|L|Torres,Priscilla|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|4|L|Presumptive Positive results are indicative of the presence|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|5|L|of SARS-CoV-2 RNA, clinical correlation with patient history|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|6|L|and other diagnostic information is necessary to determine|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|7|L|patient infection status. Positive results do not rule out|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|8|L|bacterial infection or co-infection with other viruses.|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|9|L| |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|10|L|Presumptive Negative results do not preclude SARS-CoV-2|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|11|L|infection and should not be used as the sole basis for|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|12|L|patient management decisions. Negative must be treated as|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|13|L|presumptive and, if inconsistent with clinical signs and|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|14|L|symptoms or necessary for patient management, should be|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|15|L|tested with an alternative molecular assay. |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|16|L| |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|17|L|The ID NOW COVID-19 test is intended for use by medical|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|18|L|professionals or trained operators who are proficient in|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|19|L|performing tests using the ID NOW Instrument. The ID NOW|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|20|L|COVID-19 test is only used under the Food and Drug|RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+NTE|21|L|Adminstration's Emergency Use Authorization. |RE^Remark^HL70364^C^Comment^L^2.5.1^5.67
+SPM|1|03867184^L12952226&45D0503544&2.16.840.1.113883.3.1110.3.1.187&ISO||119297000^Blood^SCT^Blood^Blood^L^01/31/2011^5.67|||||||||||||20271128190801-0600^20271128190801-0600|20201129163300-0600

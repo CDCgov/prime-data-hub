@@ -31,6 +31,7 @@ import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Properties
+import java.util.TimeZone
 
 class Hl7Serializer(val metadata: Metadata) : Logging {
     data class Hl7Mapping(
@@ -161,9 +162,7 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
          * Query the terser and get a value.
          * @param terser the HAPI terser
          * @param terserSpec the HL7 field to fetch as a terser spec
-         * @param elementName the name of the element this value is for
          * @param errors the list of errors for this message decoding
-         * @param warnings the list of warnings for this message decoding
          * @return the value from the HL7 message or an empty string if no value found
          */
         fun queryTerserForValue(
@@ -186,7 +185,6 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
          * @param element the element for the AOE question
          * @param terser the HAPI terser
          * @param errors the list of errors for this message decoding
-         * @param warnings the list of warnings for this message decoding
          * @return the value from the HL7 message or an empty string if no value found
          */
         fun decodeAOEQuestion(
@@ -320,7 +318,7 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
             if (!element.isOptional) {
                 var isValueEmpty = true
                 mappedRows[element.name]?.forEach { elementValues ->
-                    if (!elementValues.isNullOrEmpty()) {
+                    if (elementValues.isNotEmpty()) {
                         isValueEmpty = false
                     }
                 }
@@ -672,7 +670,7 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
             when (phoneNumberFormatting) {
                 Hl7Configuration.PhoneNumberFormatting.STANDARD -> {
                     val phoneNumber = "($areaCode)$localWithDash" +
-                        if (extension.isNotEmpty()) "X${extension}" else ""
+                        if (extension.isNotEmpty()) "X$extension" else ""
                     terser.set(buildComponent(pathSpec, 1), phoneNumber)
                     terser.set(buildComponent(pathSpec, 2), component1)
                 }
@@ -1035,7 +1033,13 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
                 when (val value = segment.getField(fieldNumber, 0)) {
                     // Timestamp
                     is TS -> {
-                        dtm = value.time?.valueAsDate?.toInstant()
+                        // If the offset was not specified then set the timezone to UTC instead of the system default
+                        // -99 is the value returned from HAPI when no offset is specified
+                        if (value.time?.gmtOffset == -99) {
+                            val cal = value.time?.valueAsCalendar
+                            cal?.let { it.timeZone = TimeZone.getTimeZone("GMT") }
+                            dtm = cal?.toInstant()
+                        } else dtm = value.time?.valueAsDate?.toInstant()
                         rawValue = value.toString()
                     }
                     // Date range. For getting a date time, use the start of the range
@@ -1055,8 +1059,8 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
                     when (element.type) {
                         Element.Type.DATETIME -> {
                             valueString = DateTimeFormatter.ofPattern(Element.datetimePattern)
-                                .format(OffsetDateTime.ofInstant(dtm, ZoneId.systemDefault()))
-                            val r = Regex("^[A-Z]+\\[[0-9]{12,}\\.{0,1}[0-9]{0,4}[+-][0-9]{4}\\]\$")
+                                .format(OffsetDateTime.ofInstant(dtm, ZoneId.of("Z")))
+                            val r = Regex("^[A-Z]+\\[[0-9]{12,}\\.?[0-9]{0,4}[+-][0-9]{4}]\$")
                             if (!r.matches(rawValue)) {
                                 warnings.add(
                                     "Timestamp for $hl7Field - ${element.name} needs to provide more " +
@@ -1066,7 +1070,7 @@ class Hl7Serializer(val metadata: Metadata) : Logging {
                         }
                         Element.Type.DATE -> {
                             valueString = DateTimeFormatter.ofPattern(Element.datePattern)
-                                .format(OffsetDateTime.ofInstant(dtm, ZoneId.systemDefault()))
+                                .format(OffsetDateTime.ofInstant(dtm, ZoneId.of("Z")))
                             // Note that some schema fields of type date could be derived from HL7 date time fields
                             val r = Regex("^[A-Z]+\\[[0-9]{8,}.*")
                             if (!r.matches(rawValue)) {

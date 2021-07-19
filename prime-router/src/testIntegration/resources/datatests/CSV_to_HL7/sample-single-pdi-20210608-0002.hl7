@@ -1,16 +1,12 @@
-FHS|^~\&|||||202106081459-0400
-BHS|^~\&|||||202106081459-0400
-MSH|^~\&||Any lab USA^36D1332559^CLIA|||20210608145937.746-0400||ORU^R01^ORU_R01|885617|P|2.5.1|||NE|NE|USA|UNICODE UTF-8
-SFT|Centers for Disease Control and Prevention|0.1-SNAPSHOT|PRIME Data Hub|0.1-SNAPSHOT||20210607
-PID|1||kc3oy^^^Any lab USA&36D1332559&CLIA^PI^&36D1332559&CLIA||Schaefer^Stephenie^Davis^Sr.||19930227|U||ASKU^Asked, but unknown^NULLFL^^^^2.5.1|96633 Gilberto Course^^^IG||(260)759-5016^PRN^PH^^1^260^7595016~^NET^Internet^otto.daugherty@email.com|||||||||N^Non Hispanic or Latino^HL70189^^^^2.9
-ORC|RE|885617^Any lab USA^36D1332559^CLIA|885617^Any lab USA^36D1332559^CLIA|||||||||8997885262^Hane^Cornelius||(285)138-9942^WPN^PH^^1^285^1389942|20210603||||||Any facility USA|7143 Wilford Meadow^^^IG|(235)675-4082^WPN^PH^^1^235^6754082|395 Tenesha Stravenue^^^IG
-OBR|1|885617^Any lab USA^36D1332559^CLIA|885617^Any lab USA^36D1332559^CLIA||||202106040725-0400|202106040725-0400||||||||8997885262^Hane^Cornelius|(285)138-9942^WPN^PH^^1^285^1389942|||||202105280000-0500|||C
-OBX|1|CWE|94558-4||840539006^Disease caused by sever acute respiratory syndrome coronavirus 2 (disorder)^SCT^^^^20200309|||A|||C|||202106040725-0400|36D1332559^CLIA||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559^CLIA|386 Mary Manors^^^IG
-OBX|2|DT|65222-2^Date and time of symptom onset^LN^^^^2.68||20210606||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
-OBX|3|CWE|95418-0^Whether patient is employed in a healthcare setting^LN^^^^2.69||UNK^Unknown^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
-OBX|4|CWE|95421-4^Resides in a congregate care setting^LN^^^^2.69||N^No^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
-OBX|5|CWE|95417-2^First test for condition of interest^LN^^^^2.69||N^No^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
+MSH|^~\&||Any lab USA^36D1332559^CLIA|||20210715121745.8727-0400||ORU^R01^ORU_R01|885617|P|2.5.1|||NE|NE|USA|UNICODE UTF-8
+SFT|Centers for Disease Control and Prevention|0.1-SNAPSHOT|PRIME Data Hub|0.1-SNAPSHOT||20210715
+PID|1||kc3oy^^^Any lab USA&36D1332559&CLIA^PI^&36D1332559&CLIA||Schaefer^Stephenie^Davis^Sr.^^^L||19930227|U||ASKU^Asked, but unknown^NULLFL^^^^2.5.1|96633 Gilberto Course^^^IG^^USA||^NET^Internet^otto.daugherty@email.com~(260)759-5016^PRN^PH^^1^260^7595016|||||||||N^Non Hispanic or Latino^HL70189^^^^2.9||||||||N
+ORC|RE|885617^Any lab USA^36D1332559^CLIA|885617^Any lab USA^36D1332559^CLIA|||||||||8997885262^Hane^Cornelius||(285)138-9942^WPN^PH^^1^285^1389942|20210603||||||Any facility USA|7143 Wilford Meadow^^^IG^^^^CSV|(235)675-4082^WPN^PH^^1^235^6754082|395 Tenesha Stravenue^^^IG
+OBR|1|885617^Any lab USA^36D1332559^CLIA|885617^Any lab USA^36D1332559^CLIA|94558-4^SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory specimen by Rapid immunoassay^LN^^^^2.68|||202106040725-0400|202106040725-0400||||||||8997885262^Hane^Cornelius|(285)138-9942^WPN^PH^^1^285^1389942|||||202105280000-0500|||C
+OBX|1|CWE|94558-4^SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory specimen by Rapid immunoassay^LN^^^^2.68||840539006^Disease caused by sever acute respiratory syndrome coronavirus 2 (disorder)^SCT^^^^20200309|||A^Abnormal (applies to non-numeric results)^HL70078^^^^2.7|||C|||202106040725-0400|36D1332559^CLIA||^^^^^^2.68||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559^CLIA|386 Mary Manors^^^IG
+OBX|2|CWE|95418-0^Whether patient is employed in a healthcare setting^LN^^^^2.69||UNK^Unknown^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
+OBX|3|CWE|95417-2^First test for condition of interest^LN^^^^2.69||N^No^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
+OBX|4|DT|65222-2^Date and time of symptom onset^LN^^^^2.68||20210606||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
+OBX|5|CWE|95421-4^Resides in a congregate care setting^LN^^^^2.69||N^No^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
 OBX|6|CWE|95419-8^Has symptoms related to condition of interest^LN^^^^2.69||Y^Yes^HL70136||||||F|||202106040725-0400|36D1332559||||202105310000-0500||||Any lab USA^^^^^^XX^^^36D1332559|386 Mary Manors^^^IG|||||QST
-SPM|1|&&36D1332559&CLIA^885617&&36D1332559&CLIA||440500007^Dried blood spot specimen^SCT^^^^2.67||||71836000^Nasopharyngeal structure (body structure)^SCT^^^^2020-09-01|||||||||202106040725-0400
-BTS|1
-FTS|1
+SPM|1|885617&&36D1332559&CLIA^885617&&36D1332559&CLIA||440500007^Dried blood spot specimen^SCT^^^^2.67||||71836000^Nasopharyngeal structure (body structure)^SCT^^^^2020-09-01|||||||||202106040725-0400

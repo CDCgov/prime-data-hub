@@ -26,7 +26,9 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 import java.time.LocalDate
 import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -355,8 +357,19 @@ NTE|1|L|This is a final comment|RE"""
         every { mockTS.time } returns mockDTM
         every { mockTS.time.valueAsDate } returns nowAsDate
         every { mockTS.time.value } returns dateFormatterWithTimeZone.format(now)
+        every { mockTS.time.gmtOffset } returns 0
         dateTime = serializer.decodeHl7DateTime(mockTerser, dateTimeElement, dateTimeElement.hl7Field!!, warnings)
-        assertEquals(dateFormatterWithTimeZone.format(now), dateTime)
+        assertEquals(dateFormatterWithTimeZone.format(now.withOffsetSameInstant(ZoneOffset.UTC)), dateTime)
+
+        // Field value is TS has a time, but no GMT offset
+        every { mockTS.time } returns mockDTM
+        val cal = Calendar.getInstance()
+        cal.time = nowAsDate
+        every { mockTS.time.valueAsCalendar } returns cal
+        every { mockTS.time.value } returns dateFormatterWithTimeZone.format(now)
+        every { mockTS.time.gmtOffset } returns -99
+        dateTime = serializer.decodeHl7DateTime(mockTerser, dateTimeElement, dateTimeElement.hl7Field!!, warnings)
+        assertEquals(dateFormatterWithTimeZone.format(now.withOffsetSameInstant(ZoneOffset.UTC)), dateTime)
 
         // Field value is DR, but no range
         every { mockSegment.getField(any(), any()) } returns mockDR
@@ -376,7 +389,7 @@ NTE|1|L|This is a final comment|RE"""
         every { mockDR.rangeStartDateTime.time.valueAsDate } returns nowAsDate
         every { mockDR.rangeStartDateTime.time.value } returns dateFormatterWithTimeZone.format(now)
         dateTime = serializer.decodeHl7DateTime(mockTerser, dateTimeElement, dateTimeElement.hl7Field!!, warnings)
-        assertEquals(dateFormatterWithTimeZone.format(now), dateTime)
+        assertEquals(dateFormatterWithTimeZone.format(now.withOffsetSameInstant(ZoneOffset.UTC)), dateTime)
 
         // Generate a warning for not having the timezone offsets
         every { mockDR.rangeStartDateTime } returns mockTS
@@ -425,7 +438,7 @@ NTE|1|L|This is a final comment|RE"""
         every { mockDT.month } returns date.monthValue
         every { mockDT.day } returns date.dayOfMonth
         every { mockSegment.getField(any(), any()) } returns mockDT
-        var dateTime = serializer.decodeHl7DateTime(mockTerser, dateElement, dateElement.hl7Field!!, warnings)
+        val dateTime = serializer.decodeHl7DateTime(mockTerser, dateElement, dateElement.hl7Field!!, warnings)
         assertEquals(formattedDate, dateTime)
 
         // Test a bit more the regex for the warning
@@ -510,7 +523,8 @@ NTE|1|L|This is a final comment|RE"""
             "5555555555:1:",
             patientPathSpec,
             patientElement,
-            Hl7Configuration.PhoneNumberFormatting.ONLY_DIGITS_IN_COMPONENT_ONE)
+            Hl7Configuration.PhoneNumberFormatting.ONLY_DIGITS_IN_COMPONENT_ONE
+        )
 
         verify {
             mockTerser.set("/PATIENT_RESULT/PATIENT/PID-13(0)-1", "5555555555")
@@ -530,13 +544,17 @@ NTE|1|L|This is a final comment|RE"""
         every { mockTerser.set(any(), any()) } returns Unit
 
         val facilityPathSpec = serializer.formPathSpec("ORC-23")
-        val facilityElement = Element("ordering_facility_phone_number", hl7Field = "ORC-23", type = Element.Type.TELEPHONE)
+        val facilityElement = Element(
+            "ordering_facility_phone_number", hl7Field = "ORC-23",
+            type = Element.Type.TELEPHONE
+        )
         serializer.setTelephoneComponent(
             mockTerser,
             "5555555555:1:3333",
             facilityPathSpec,
             facilityElement,
-            Hl7Configuration.PhoneNumberFormatting.STANDARD)
+            Hl7Configuration.PhoneNumberFormatting.STANDARD
+        )
 
         verify {
             mockTerser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-23-1", "(555)555-5555X3333")
