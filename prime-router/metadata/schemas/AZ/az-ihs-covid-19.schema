@@ -1,0 +1,64 @@
+---
+# Background: This schema was created for a one-time IHS tribal upload
+#  - The file followed the AZ loading
+#  - NA was used extensively and was replaced by blanks with a global search and replace
+#  - The lab and ordering_facility where the same place in these tests
+#  -
+name: az-ihs-covid-19
+description: Schema for the john_hopkins sender. Modeled after the AZ flat-file.
+topic: covid-19
+trackingElement: testing_lab_specimen_id
+extends: az/az-covid-19
+elements:
+  - name: ordering_facility_name
+    mapper: use(testing_lab_name)
+
+  - name: ordering_facility_street
+    mapper: use(testing_lab_street)
+
+  - name: ordering_facility_city
+    mapper: use(testing_lab_city)
+
+  - name: ordering_facility_state
+    mapper: use(testing_lab_state)
+
+  - name: ordering_facility_zip_code
+    mapper: use(testing_lab_zip_code)
+
+  - name: patient_state
+    default: AZ
+
+  - name: patient_ethnicity
+    altValues:
+      - display: H     # Hispanic
+        code: 2135-2
+      - display: NH    # Non-Hispanic
+        code: 2186-5
+      - display: U     # Unknown
+        code: UNK
+    csvFields:
+      - name: Ethnicity
+        format: $alt
+
+  - name: message_id
+    mapper: use(testing_lab_specimen_id)
+
+  - name: specimen_type
+    csvFields:
+      - name: Specimen_Type
+        format: $alt
+    altValues:
+      # Swab of internal nose SCT
+    - display: Nasal Swab
+      code: 445297001
+
+  - name: specimen_source_site_code
+    csvFields:
+    - name: Specimen_Site
+      format: $alt
+    altValues:
+    - display: Nose
+      code: 71836000
+
+  - name: equipment_model_name
+    default: BinaxNOW COVID-19 Ag Card

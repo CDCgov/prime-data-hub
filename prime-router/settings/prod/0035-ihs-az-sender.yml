@@ -1,0 +1,10 @@
+# Run this:   ./prime multiple-settings set --input ./settings/prod/0035-waters.yml --env prod
+- name: "john_hopkins"
+  description: "John Hopkin's / IHS school testing program"
+  jurisdiction: "FEDERAL"
+  senders:
+    - name: "default"
+      organizationName: "john_hopkins"
+      format: "CSV"
+      topic: "covid-19"
+      schemaName: "AZ/az-ihs-covid-19"

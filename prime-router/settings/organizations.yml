@@ -97,6 +97,16 @@
       schemaName: direct/careevolution-covid-19
       format: HL7
 
+- name: "john_hopkins"
+  description: "John Hopkin's / IHS school testing program"
+  jurisdiction: "FEDERAL"
+  senders:
+    - name: "default"
+      organizationName: "john_hopkins"
+      format: "CSV"
+      topic: "covid-19"
+      schemaName: "AZ/az-ihs-covid-19"
+
 - name: az-phd
   description: Arizona PHD
   jurisdiction: STATE
@@ -122,6 +132,24 @@
         port: 22
         filePath: ./upload
         credentialName: DEFAULT-SFTP
+    - name: elr-secondary
+      organizationName: az-phd
+      topic: covid-19
+      jurisdictionalFilter:
+        - matches(ordering_facility_state,AZ)
+      reverseTheQualityFilter: true
+      translation:
+        type: CUSTOM
+        schemaName: az/az-covid-19
+        format: CSV
+        nameFormat: standard_secondary
+
+      timing:
+        operation: MERGE
+        numberPerDay: 1440 # Every minute
+        initialTime: 00:00
+        timeZone: ARIZONA
+      # Download only, no transport
 
 - name: pima-az-phd
   description: Pima County, Arizona PHD

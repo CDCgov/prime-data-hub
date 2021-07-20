@@ -8,6 +8,16 @@
     - "-"
     - createdDate()
 
+- name: standard_secondary
+  lowerCase: true
+  elements:
+    - schemaBaseName()
+    - "-"
+    - createdDate()
+    - "-"
+    - uuid()
+    - "-secondary"
+
 - name: ohio
   upperCase: true
   elements:

@@ -1,0 +1,25 @@
+# Run this with ./prime receiver set --env prod --input ./settings/prod/0033-az-secondary.yml
+---
+name: "elr-secondary"
+organizationName: "az-phd"
+topic: "covid-19"
+translation: !<CUSTOM>
+  schemaName: "az/az-covid-19"
+  format: "CSV"
+  defaults: {}
+  nameFormat: "standard_secondary"
+  receivingOrganization: null
+  type: "CUSTOM"
+jurisdictionalFilter:
+- "matches(ordering_facility_state,AZ)"
+qualityFilter: []
+reverseTheQualityFilter: true
+deidentify: false
+timing:
+  operation: "MERGE"
+  numberPerDay: 1
+  initialTime: "09:16"
+  timeZone: "EASTERN"
+  maxReportCount: 500
+description: ""
+
