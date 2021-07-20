@@ -1,0 +1,50 @@
+name: Terraform
+
+on:
+  pull_request:
+    branches:
+      - master
+      - production
+
+jobs:
+  pre_job:
+    name: Pre Job
+    runs-on: ubuntu-latest
+    outputs:
+      has_operations_change: ${{ steps.skip_check.outputs.operations }}
+      is_fork: ${{ steps.fork_check.outputs.is_fork }}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: skip_check
+        with:
+          list-files: csv
+          filters: |
+            operations:
+              - 'operations/app/**'
+              - 'operations/docker-compose.yml'
+              - 'operations/Dockerfile'
+              - 'operations/Makefile'
+              - '.github/workflows/validate_terraform.yml'
+      - id: fork_check
+        run: echo "::set-output name=is_fork::${{ github.event.pull_request.head.repo.full_name != github.repository }}"
+
+  validate_terraform_yaml:
+    name: Validate Terraform YAML
+    needs: pre_job
+    if: ${{ needs.pre_job.outputs.has_operations_change == 'true' && needs.pre_job.outputs.is_fork != 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: operations
+
+    steps:
+      - name: "Check out changes"
+        uses: actions/checkout@v2
+
+      - name: "Validate all modules"
+        run: |
+          make TF_ENV="staging" tf-validate
+
+      - name: "Generate 01-network plan"
+        run: |
+          make TF_ENV="staging" TF_STAGE="01-network" TF_CMD="tf plan -no-color > /app/plan/01-network.txt" tf-cmd

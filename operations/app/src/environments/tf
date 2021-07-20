@@ -18,6 +18,16 @@ VERBOSE=${VERBOSE:-0}
 SCRIPT_DIR="$(dirname "$(realpath "${0}")")"
 CONFIGS_DIR="${SCRIPT_DIR?}/configurations"
 
+# Does the command require an Azure backend?
+case "${TFCMD?}" in
+validate*)
+    AZ_BACKEND_REQUIRED=0
+    ;;
+*)
+    AZ_BACKEND_REQUIRED=1
+    ;;
+esac
+
 # Prints the usage
 function usage() {
     echo "Usage: ${0} [--cmd <COMMAND>] [--env <ENVIRONMENT>] [--verbose]"
@@ -92,9 +102,6 @@ done
 # Do real work
 #
 
-# Set default Azure subscription (and allow override)
-az account set -s ${AZ_SUBSCRIPTION_ID:-7d1e3999-6577-4cd5-b296-f518e5c8e677}
-
 # If not set, we assume you're targetting 'dev'
 ENVIRONMENT="${ENVIRONMENT:-dev}"
 
@@ -135,9 +142,14 @@ HERE=${HERE?:${_DASH_INDEX?}}
 
 # Initialize with our backend
 EXPECTED_RESULTS="${EXPECTED_RESULTS?}0"
-terraform init \
-    --reconfigure \
-    --backend-config=<(cat ${BACKEND_CONFIG?} | sed "s/__STAGE__/${HERE?}/g")
+if [[ ${AZ_BACKEND_REQUIRED?} == 1 ]]; then
+    az account set -s ${AZ_SUBSCRIPTION_ID:-7d1e3999-6577-4cd5-b296-f518e5c8e677}
+    terraform init \
+        --reconfigure \
+        --backend-config=<(cat ${BACKEND_CONFIG?} | sed "s/__STAGE__/${HERE?}/g")
+else
+    terraform init -backend=false
+fi
 ACTUAL_RESULTS="${ACTUAL_RESULTS?}${?}"
 
 # Now do whatever you asked terraform to do (but only if we did not encounter any 'significant' errors)
@@ -147,8 +159,8 @@ if [[ "${ACTUAL_RESULTS?}" == "${EXPECTED_RESULTS?}" ]]; then
         echo -e "${WHITE?}Executing terraform ${TFCMD?}${NORMAL?}..."
     fi
     case "${TFCMD?}" in
-    graph|output|state*)
-        # Graph & output are special in that they do not like arguments
+    graph|output|validate|state*)
+        # Commands that should be run without arguments
         EXPECTED_RESULTS="${EXPECTED_RESULTS?}0"
         terraform ${TFCMD}
         ACTUAL_RESULTS="${ACTUAL_RESULTS?}${?}"

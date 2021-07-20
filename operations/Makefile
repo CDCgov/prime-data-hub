@@ -3,6 +3,7 @@ SHELL := bash
 
 TF_ENV = "dev" #VAR Your target environment (e.g. dev, test, staging, prod)
 TF_STAGE = ""  # not surfaced
+TF_CMD = ""  # not surfaced
 
 AZ_RESOURCE_PREFIX = "pdh$(TF_ENV)" ## VAR Azure environment resource prefix (e.g. pdhtest)
 AZ_RESOURCE_GROUP = "prime-data-hub-$(TF_ENV)" ## VAR Azure resource group (e.g. prime-data-hub-staging)
@@ -13,7 +14,7 @@ ZDD_TARGET_SLOT = "production" #VAR Destination function app slot to deploy to
 # HELP
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-.PHONY: help tf-cli tf-01-network tf-02-config tf-03-persistent tf-04-app zdd-promote-slot
+.PHONY: help tf-cli tf-cmd tf-01-network tf-02-config tf-03-persistent tf-04-app tf-validate zdd-promote-slot
 
 help: ## This help
 	@echo "Invoke any of the following targets"
@@ -38,6 +39,9 @@ build-tf: ## Build the Terraform docker container
 tf-cli: build-tf ## Drops into a Docker container configured with the Terraform CLI and Azure
 	docker-compose run -e ENVIRONMENT=$(TF_ENV) -w /app/src/environments/$(TF_STAGE) tf-cli
 
+tf-cmd: build-tf ## Runa a command in the Docker container configured with the Terraform CLI and Azure
+	docker-compose run -e ENVIRONMENT=$(TF_ENV) -w /app/src/environments/$(TF_STAGE) --entrypoint "${TF_CMD}" tf-cli
+
 tf-01-network: ## Preconfigures Terraform network environment module
 	${MAKE} tf-cli TF_STAGE="01-network"
 
@@ -49,6 +53,12 @@ tf-03-persistent: ## Preconfigures Terraform persistent environment module
 
 tf-04-app: ## Preconfigures Terraform app environment module
 	${MAKE} tf-cli TF_STAGE="04-app"
+
+tf-validate: ## Validates the Terraform configuration across all modules
+	${MAKE} tf-cmd TF_STAGE="01-network" TF_CMD="tf validate"
+	${MAKE} tf-cmd TF_STAGE="02-config" TF_CMD="tf validate"
+	${MAKE} tf-cmd TF_STAGE="03-persistent" TF_CMD="tf validate"
+	${MAKE} tf-cmd TF_STAGE="04-app" TF_CMD="tf validate"
 
 
 # AZURE

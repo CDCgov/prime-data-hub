@@ -1,4 +1,4 @@
-name: Build router
+name: Router
 
 on:
   pull_request:
