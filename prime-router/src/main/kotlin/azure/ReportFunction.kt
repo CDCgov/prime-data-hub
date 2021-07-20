@@ -30,7 +30,8 @@ private const val DEFAULT_PARAMETER = "default"
 private const val DEFAULT_SEPARATOR = ":"
 private const val ROUTE_TO_PARAMETER = "routeTo"
 private const val ROUTE_TO_SEPARATOR = ","
-
+private const val VERBOSE_PARAMETER = "verbose"
+private const val VERBOSE_TRUE = "true"
 /**
  * Azure Functions with HTTP Trigger.
  * This is basically the "front end" of the Hub. Reports come in here.
@@ -53,7 +54,14 @@ class ReportFunction {
         val defaults: Map<String, String> = emptyMap(),
         val routeTo: List<String> = emptyList(),
         val report: Report? = null,
-        val sender: Sender? = null
+        val sender: Sender? = null,
+        val verbose: String = "",
+    )
+
+    data class ItemRouting(
+        val reportIndex: Int,
+        val trackingId: String?,
+        val destinations: MutableList<String> = mutableListOf(),
     )
 
     /**
@@ -216,6 +224,10 @@ class ReportFunction {
                 )
             )
 
+        // extract the verbose param and default to empty if not present
+        val verboseParam = request.queryParameters.getOrDefault(VERBOSE_PARAMETER, "")
+        val verbose = if (verboseParam.equals(VERBOSE_TRUE, true)) verboseParam else ""
+
         val contentType = request.headers.getOrDefault(HttpHeaders.CONTENT_TYPE.lowercase(), "")
         if (contentType.isBlank()) {
             errors.add(ResultDetail.param(HttpHeaders.CONTENT_TYPE, "missing"))
@@ -267,7 +279,7 @@ class ReportFunction {
             report = null
             status = HttpStatus.BAD_REQUEST
         }
-        return ValidatedRequest(status, errors, warnings, options, defaultValues, routeTo, report, sender)
+        return ValidatedRequest(status, errors, warnings, options, defaultValues, routeTo, report, sender, verbose)
     }
 
     private fun createReport(
@@ -395,6 +407,7 @@ class ReportFunction {
     ): String {
         val factory = JsonFactory()
         val outStream = ByteArrayOutputStream()
+        val itemRouting: List<ItemRouting> = createItemRouting(result, actionHistory)
         factory.createGenerator(outStream).use {
             it.useDefaultPrettyPrinter()
             it.writeStartObject()
@@ -407,6 +420,20 @@ class ReportFunction {
                 it.writeNullField("id")
 
             actionHistory?.prettyPrintDestinationsJson(it, WorkflowEngine.settings, result.options)
+            // print the report routing when in verbose mode
+            if (VERBOSE_TRUE.equals(result.verbose, true)) {
+                it.writeArrayFieldStart("routing")
+                itemRouting.forEach { ij ->
+                    it.writeStartObject()
+                    it.writeNumberField("reportIndex", ij.reportIndex)
+                    it.writeStringField("trackingId", ij.trackingId)
+                    it.writeArrayFieldStart("destinations")
+                    ij.destinations.sorted().forEach { d -> it.writeString(d) }
+                    it.writeEndArray()
+                    it.writeEndObject()
+                }
+                it.writeEndArray()
+            }
 
             it.writeNumberField("warningCount", result.warnings.size)
             it.writeNumberField("errorCount", result.errors.size)
@@ -427,5 +454,45 @@ class ReportFunction {
             it.writeEndObject()
         }
         return outStream.toString()
+    }
+
+    /**
+     * Creates a list of [ItemRouting] instances with the report index
+     * and trackingId along with the list of the receiver organizations where
+     * the report was routed.
+     * @param validatedRequest the instance generated while processing the report
+     * @param actionHistory the instance generated while processing the report
+     * @return the report routing for each item
+     */
+    private fun createItemRouting(
+        validatedRequest: ValidatedRequest,
+        actionHistory: ActionHistory? = null,
+    ): List<ItemRouting> {
+        // create the item routing from the item lineage
+        val routingMap = mutableMapOf<Int, ItemRouting>()
+        actionHistory?.let { ah ->
+            ah.itemLineages.forEach { il ->
+                val item = routingMap.getOrPut(il.parentIndex) { ItemRouting(il.parentIndex, il.trackingId) }
+                ah.reportsOut[il.childReportId]?.let { rf ->
+                    item.destinations.add("${rf.receivingOrg}.${rf.receivingOrgSvc}")
+                }
+            }
+        }
+        // account for any items that routed no where and were not in the item lineage
+        return validatedRequest.report?.let { report ->
+            val items = mutableListOf<ItemRouting>()
+            // the report has all the submitted items
+            report.itemIndices.forEach { i ->
+                // if an item was not present, create the routing with empty destinations
+                items.add(routingMap.getOrDefault(
+                    i,
+                    ItemRouting(i, report.getString(i, report.schema.trackingElement ?: ""))
+                ))
+            }
+            items
+        } ?: run {
+            // unlikely, but in case the report is null...
+            routingMap.toSortedMap().values.map{ it }
+        }
     }
 }

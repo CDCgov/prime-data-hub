@@ -62,7 +62,7 @@ class BlobAccess(
             Event.EventAction.RECEIVE -> "receive/$subfolderNameChecked$reportName"
             Event.EventAction.SEND -> "ready/$subfolderNameChecked$reportName"
             Event.EventAction.BATCH -> "batch/$subfolderNameChecked$reportName"
-            else -> error("Cannot determine folder to store blob.  Unsupported action $action for report $reportName")
+            else -> "other/$subfolderNameChecked$reportName"
         }
         val digest = sha256Digest(blobBytes)
         val blobUrl = uploadBlob(blobName, blobBytes)

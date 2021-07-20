@@ -491,7 +491,15 @@ components:
           description: where the report is being sent to
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/Destination'
+        destinationCount:
+          description: total destinations recieving the report(s)
+          type: integer
+        routing:
+          description: The receiver destination names for each item in the report. This is displayed when verbose=true is present on the query string.
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemRouting'
         errorCount:
           description: total errors found during initial validation.  There may be multiple errors per item.
           type: integer
@@ -525,6 +533,40 @@ components:
         detail:
           type: string
           description: The details of the error
+
+    Destination:
+      type: object
+      properties:
+        organization:
+          type: string
+          description: The name of the organization reciving the report
+        organization_id:
+          type: string
+          description: The organization id (i.e. {state abbreviation}-phd)
+        service:
+          type: string
+          description: The service used for delivering the report
+        sending_at:
+          type: time-date
+          description: The time at which the report will be sent
+        itemCount:
+          type: integer
+          description: The number of reports being sent to this destination
+
+    ItemRouting:
+      type: object
+      properties:
+        reportIndex:
+          type: integer
+          description: the index of the item in the submitted report (0 based)
+        trackingId:
+          type: string
+          description: The tracking id provided by the sender defined in the schema, null otherwise
+        destinations:
+          description: The organization and service destinations
+          type: array
+          items:
+            type: string
 
     SettingMetadata:
       description: The metadata associated with an setting
