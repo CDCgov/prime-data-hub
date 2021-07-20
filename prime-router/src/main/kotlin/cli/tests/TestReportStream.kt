@@ -254,7 +254,8 @@ Examples:
             Hl7Ingest(),
             DataCompareTest(),
             SantaClaus(),
-            OtcProctored()
+            OtcProctored(),
+            BadHl7()
         )
     }
 }
