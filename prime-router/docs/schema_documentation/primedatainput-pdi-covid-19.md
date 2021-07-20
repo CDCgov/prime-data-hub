@@ -920,6 +920,20 @@ Does the patient reside in a congregate care setting?
 
 ---
 
+**Name**: Site_of_care
+
+**Type**: TEXT
+
+**PII**: No
+
+**Cardinality**: [0..1]
+
+**Documentation**:
+
+The type of facility providing care (Hospital, Nursing Home, etc.).
+
+---
+
 **Name**: Specimen_collection_date_time
 
 **Type**: DATETIME

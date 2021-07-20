@@ -921,6 +921,10 @@ Code | Display
 57656006|Penal Institution
 32911000|Homeless
 
+**Documentation**:
+
+The type of facility providing care (Hospital, Nursing Home, etc.).
+
 ---
 
 **Name**: specimenCollectedDate

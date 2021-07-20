@@ -222,6 +222,8 @@ elements:
   - name: ordering_provider_county
     csvFields: [{name: Ordering_provider_county}]
 
+  - name: site_of_care
+    csvFields: [{name: Site_of_care}]
 
   # Fields that are calculated
 

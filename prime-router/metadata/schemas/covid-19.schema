@@ -890,6 +890,11 @@ elements:
     documentation: |
       The name and OID for the application sending information to the receivers
 
+  - name: site_of_care
+    type: TEXT
+    natFlatFileField: Site_of_care
+    documentation: The type of facility providing care (Hospital, Nursing Home, etc.).
+
   - name: specimen_collection_date_time
     type: DATETIME
     natFlatFileField: Specimen_collection_date_time
